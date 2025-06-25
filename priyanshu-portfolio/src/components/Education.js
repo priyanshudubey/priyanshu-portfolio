@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
+import { Infinity } from "lucide-react";
 import { useRef } from "react";
 import {
   FaGraduationCap,
@@ -32,6 +33,7 @@ function Education() {
         "Software Architecture",
       ],
       color: "emerald",
+      icon: FaGraduationCap,
     },
     {
       degree: "Bachelor of Technology",
@@ -50,6 +52,7 @@ function Education() {
         "Database Systems",
       ],
       color: "blue",
+      icon: FaUniversity,
     },
   ];
 
@@ -100,6 +103,33 @@ function Education() {
     },
   };
 
+  const getColorClasses = (color) => {
+    const colors = {
+      emerald: {
+        bg: "from-emerald-500/10 to-green-500/10",
+        border: "border-emerald-500/30",
+        text: "text-emerald-400",
+        badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+        glow: "rgba(16, 185, 129, 0.1)",
+      },
+      blue: {
+        bg: "from-blue-500/10 to-cyan-500/10",
+        border: "border-blue-500/30",
+        text: "text-blue-400",
+        badge: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+        glow: "rgba(59, 130, 246, 0.1)",
+      },
+      purple: {
+        bg: "from-purple-500/10 to-pink-500/10",
+        border: "border-purple-500/30",
+        text: "text-purple-400",
+        badge: "bg-purple-500/20 text-purple-300 border-purple-500/30",
+        glow: "rgba(147, 51, 234, 0.1)",
+      },
+    };
+    return colors[color] || colors.emerald;
+  };
+
   return (
     <section
       id="education"
@@ -118,7 +148,7 @@ function Education() {
             repeat: Number.POSITIVE_INFINITY,
             repeatType: "reverse",
           }}
-          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-sm"
         />
         <motion.div
           animate={{
@@ -131,7 +161,7 @@ function Education() {
             repeatType: "reverse",
             delay: 2,
           }}
-          className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-sm"
         />
 
         {/* Floating particles */}
@@ -215,199 +245,216 @@ function Education() {
 
           {/* Education cards */}
           <div className="space-y-12 lg:space-y-24">
-            {education.map((edu, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                className={`relative flex flex-col lg:flex-row items-center gap-8 ${
-                  index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                }`}>
-                {/* Timeline dot */}
+            {education.map((edu, index) => {
+              const colorClasses = getColorClasses(edu.color);
+              const IconComponent = edu.icon;
+              return (
                 <motion.div
-                  whileHover={{ scale: 1.2 }}
-                  className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full border-4 border-slate-900 z-10 hidden lg:block">
+                  key={index}
+                  variants={cardVariants}
+                  className={`relative flex flex-col lg:flex-row items-center gap-8 ${
+                    index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                  }`}>
+                  {/* Timeline dot */}
                   <motion.div
-                    animate={{ scale: [1, 1.5, 1] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                    }}
-                    className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full opacity-30"
-                  />
-                </motion.div>
-
-                {/* Card */}
-                <motion.div
-                  whileHover={{
-                    scale: 1.02,
-                    rotateY: index % 2 === 0 ? 2 : -2,
-                  }}
-                  className="w-full lg:w-1/2 group">
-                  <div className="relative p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl border border-emerald-500/20 shadow-2xl overflow-hidden">
-                    {/* Animated background gradient */}
+                    initial={{ x: "-50%" }}
+                    animate={{ x: "-50%" }}
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r ${colorClasses.bg} rounded-full border-4 border-slate-900 z-10 hidden lg:flex items-center justify-center`}>
+                    <IconComponent className={`text-lg ${colorClasses.text}`} />
                     <motion.div
-                      animate={{
-                        opacity: [0.1, 0.3, 0.1],
-                        scale: [1, 1.1, 1],
-                      }}
+                      initial={{ scale: 1 }}
+                      animate={{ scale: [1, 1.5, 1] }}
                       transition={{
-                        duration: 4,
-                        repeat: Number.POSITIVE_INFINITY,
-                        repeatType: "reverse",
+                        duration: 2,
+                        repeat: Infinity,
                       }}
-                      className={`absolute inset-0 bg-gradient-to-br ${
-                        edu.color === "emerald"
-                          ? "from-emerald-500/10 to-blue-500/10"
-                          : "from-blue-500/10 to-purple-500/10"
-                      } pointer-events-none`}
+                      className={`absolute inset-0 bg-gradient-to-r ${colorClasses.bg} rounded-full opacity-30`}
                     />
+                  </motion.div>
 
-                    {/* Status badge */}
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${
-                        edu.status === "current"
-                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                          : "bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                      }`}>
-                      {edu.status === "current"
-                        ? "🎓 In Progress"
-                        : "✅ Completed"}
-                    </motion.div>
-
-                    {/* Header */}
-                    <div className="relative z-10 mb-6">
+                  {/* Card */}
+                  <motion.div
+                    whileHover={{
+                      scale: 1.02,
+                      rotateY: index % 2 === 0 ? 2 : -2,
+                    }}
+                    className="w-full lg:w-1/2 group">
+                    <div className="relative p-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl border border-emerald-500/20 shadow-2xl overflow-hidden">
+                      {/* Animated background gradient */}
                       <motion.div
-                        whileHover={{ scale: 1.1, rotate: [0, 5, -5, 0] }}
-                        className="inline-flex items-center gap-3 mb-4">
-                        <div
-                          className={`p-3 rounded-xl ${
-                            edu.color === "emerald"
-                              ? "bg-emerald-500/20 border border-emerald-500/30"
-                              : "bg-blue-500/20 border border-blue-500/30"
-                          }`}>
-                          <FaUniversity
-                            className={`text-xl ${
-                              edu.color === "emerald"
-                                ? "text-emerald-400"
-                                : "text-blue-400"
-                            }`}
-                          />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-bold text-white mb-1">
-                            {edu.degree}
-                          </h3>
-                          <p
-                            className={`font-semibold ${
-                              edu.color === "emerald"
-                                ? "text-emerald-400"
-                                : "text-blue-400"
-                            }`}>
-                            {edu.field}
-                          </p>
-                        </div>
-                      </motion.div>
-
-                      <motion.h4
-                        whileHover={{ scale: 1.02 }}
-                        className="text-xl font-semibold text-gray-200 mb-2">
-                        {edu.institution}
-                      </motion.h4>
-
-                      {/* Meta information */}
-                      <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
-                        <div className="flex items-center gap-2">
-                          <FaCalendarAlt className="text-emerald-400" />
-                          <span>{edu.duration}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <FaMapMarkerAlt className="text-blue-400" />
-                          <span>{edu.location}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10 space-y-4">
-                      <p className="text-gray-300 leading-relaxed">
-                        {edu.details}
-                      </p>
-
-                      {/* Highlights */}
-                      <div className="space-y-3">
-                        <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                          Key Areas
-                        </h5>
-                        <div className="flex flex-wrap gap-2">
-                          {edu.highlights.map((highlight, idx) => (
-                            <motion.span
-                              key={idx}
-                              whileHover={{ scale: 1.05 }}
-                              className={`px-3 py-1 text-xs font-medium rounded-full ${
-                                edu.color === "emerald"
-                                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-                                  : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
-                              }`}>
-                              {highlight}
-                            </motion.span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* GPA/Performance */}
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className={`p-4 rounded-xl ${
+                        animate={{
+                          opacity: [0.1, 0.3, 0.1],
+                          scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Number.POSITIVE_INFINITY,
+                          repeatType: "reverse",
+                        }}
+                        className={`absolute inset-0 bg-gradient-to-br ${
                           edu.color === "emerald"
-                            ? "bg-emerald-500/10 border border-emerald-500/20"
-                            : "bg-blue-500/10 border border-blue-500/20"
+                            ? "from-emerald-500/10 to-blue-500/10"
+                            : "from-blue-500/10 to-purple-500/10"
+                        } pointer-events-none`}
+                      />
+
+                      {/* Status badge */}
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${
+                          edu.status === "current"
+                            ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                            : "bg-blue-500/20 text-blue-400 border border-blue-500/30"
                         }`}>
-                        <div className="flex items-center gap-2">
-                          <FaTrophy
-                            className={`${
-                              edu.color === "emerald"
-                                ? "text-emerald-400"
-                                : "text-blue-400"
-                            }`}
-                          />
-                          <span className="text-sm font-semibold text-gray-300">
-                            Academic Performance:
-                          </span>
-                          <span
-                            className={`font-bold ${
-                              edu.color === "emerald"
-                                ? "text-emerald-400"
-                                : "text-blue-400"
-                            }`}>
-                            {edu.gpa}
-                          </span>
-                        </div>
+                        {edu.status === "current"
+                          ? "🎓 In Progress"
+                          : "✅ Completed"}
                       </motion.div>
-                    </div>
 
-                    {/* Hover glow effect */}
-                    <motion.div
-                      className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
-                        edu.color === "emerald"
-                          ? "bg-gradient-to-br from-emerald-500/5 to-blue-500/5"
-                          : "bg-gradient-to-br from-blue-500/5 to-purple-500/5"
-                      }`}
-                      style={{
-                        boxShadow: `0 0 50px ${
+                      {/* Header */}
+                      <div className="relative z-10 mb-6">
+                        <motion.div
+                          initial={{ scale: 1, rotate: 0 }}
+                          whileHover={{
+                            scale: 1.1,
+                            rotate: [0, 10, -10, 5, -5, 0], // 👈 wobble effect
+                          }}
+                          transition={{
+                            duration: 0.6,
+                            ease: "easeOut",
+                          }}
+                          className="inline-flex items-center gap-3 mb-4">
+                          <div
+                            className={`p-3 rounded-xl ${
+                              edu.color === "emerald"
+                                ? "bg-emerald-500/20 border border-emerald-500/30"
+                                : "bg-blue-500/20 border border-blue-500/30"
+                            }`}>
+                            <FaUniversity
+                              className={`text-xl ${
+                                edu.color === "emerald"
+                                  ? "text-emerald-400"
+                                  : "text-blue-400"
+                              }`}
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-white mb-1">
+                              {edu.degree}
+                            </h3>
+                            <p
+                              className={`font-semibold ${
+                                edu.color === "emerald"
+                                  ? "text-emerald-400"
+                                  : "text-blue-400"
+                              }`}>
+                              {edu.field}
+                            </p>
+                          </div>
+                        </motion.div>
+
+                        <motion.h4
+                          whileHover={{ scale: 1.02 }}
+                          className="text-xl font-semibold text-gray-200 mb-2">
+                          {edu.institution}
+                        </motion.h4>
+
+                        {/* Meta information */}
+                        <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
+                          <div className="flex items-center gap-2">
+                            <FaCalendarAlt className="text-emerald-400" />
+                            <span>{edu.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <FaMapMarkerAlt className="text-blue-400" />
+                            <span>{edu.location}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="relative z-10 space-y-4">
+                        <p className="text-gray-300 leading-relaxed">
+                          {edu.details}
+                        </p>
+
+                        {/* Highlights */}
+                        <div className="space-y-3">
+                          <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                            Key Areas
+                          </h5>
+                          <div className="flex flex-wrap gap-2">
+                            {edu.highlights.map((highlight, idx) => (
+                              <motion.span
+                                key={idx}
+                                whileHover={{ scale: 1.05 }}
+                                className={`px-3 py-1 text-xs font-medium rounded-full ${
+                                  edu.color === "emerald"
+                                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                                    : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                                }`}>
+                                {highlight}
+                              </motion.span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* GPA/Performance */}
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          className={`p-4 rounded-xl ${
+                            edu.color === "emerald"
+                              ? "bg-emerald-500/10 border border-emerald-500/20"
+                              : "bg-blue-500/10 border border-blue-500/20"
+                          }`}>
+                          <div className="flex items-center gap-2">
+                            <FaTrophy
+                              className={`${
+                                edu.color === "emerald"
+                                  ? "text-emerald-400"
+                                  : "text-blue-400"
+                              }`}
+                            />
+                            <span className="text-sm font-semibold text-gray-300">
+                              Academic Performance:
+                            </span>
+                            <span
+                              className={`font-bold ${
+                                edu.color === "emerald"
+                                  ? "text-emerald-400"
+                                  : "text-blue-400"
+                              }`}>
+                              {edu.gpa}
+                            </span>
+                          </div>
+                        </motion.div>
+                      </div>
+
+                      {/* Hover glow effect */}
+                      <motion.div
+                        className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
                           edu.color === "emerald"
-                            ? "rgba(16, 185, 129, 0.1)"
-                            : "rgba(59, 130, 246, 0.1)"
-                        }`,
-                      }}
-                    />
-                  </div>
-                </motion.div>
+                            ? "bg-gradient-to-br from-emerald-500/5 to-blue-500/5"
+                            : "bg-gradient-to-br from-blue-500/5 to-purple-500/5"
+                        }`}
+                        style={{
+                          boxShadow: `0 0 50px ${
+                            edu.color === "emerald"
+                              ? "rgba(16, 185, 129, 0.1)"
+                              : "rgba(59, 130, 246, 0.1)"
+                          }`,
+                        }}
+                      />
+                    </div>
+                  </motion.div>
 
-                {/* Spacer for timeline */}
-                <div className="w-full lg:w-1/2 hidden lg:block" />
-              </motion.div>
-            ))}
+                  {/* Spacer for timeline */}
+                  <div className="w-full lg:w-1/2 hidden lg:block" />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 

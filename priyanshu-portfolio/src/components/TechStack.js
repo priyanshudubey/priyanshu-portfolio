@@ -16,109 +16,108 @@ import {
   FaRocket,
   FaTools,
   FaLaptopCode,
+  FaServer,
+  FaCloud,
 } from "react-icons/fa";
 import { SiServerless, SiExpress } from "react-icons/si";
 
 function TechStack() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const skills = [
     {
       name: "JavaScript",
-      icon: <FaJsSquare className="text-yellow-500" />,
-      color: "bg-yellow-500/20 text-yellow-500",
-      category: "Programming Language",
+      icon: <FaJsSquare className="text-4xl" />,
+      color: "yellow",
+      category: "languages",
       experience: "3+ years",
       proficiency: 90,
-      description:
-        "Modern ES6+ JavaScript for both frontend and backend development",
+      description: "Modern ES6+ JavaScript for full-stack development",
     },
     {
       name: "Python",
-      icon: <FaPython className="text-blue-500" />,
-      color: "bg-blue-500/20 text-blue-500",
-      category: "Programming Language",
+      icon: <FaPython className="text-4xl" />,
+      color: "blue",
+      category: "languages",
       experience: "2+ years",
       proficiency: 75,
       description: "Data analysis, automation, and backend development",
     },
     {
       name: "Node.js",
-      icon: <FaNodeJs className="text-green-500" />,
-      color: "bg-green-500/20 text-green-500",
-      category: "Runtime Environment",
+      icon: <FaNodeJs className="text-4xl" />,
+      color: "green",
+      category: "backend",
       experience: "3+ years",
       proficiency: 95,
       description: "Server-side JavaScript runtime for scalable applications",
     },
     {
+      name: "React.js",
+      icon: <FaReact className="text-4xl" />,
+      color: "cyan",
+      category: "frontend",
+      experience: "3+ years",
+      proficiency: 90,
+      description: "Modern React with hooks and component architecture",
+    },
+    {
       name: "AWS",
-      icon: <FaAws className="text-orange-500" />,
-      color: "bg-orange-500/20 text-orange-500",
-      category: "Cloud Platform",
+      icon: <FaAws className="text-4xl" />,
+      color: "orange",
+      category: "cloud",
       experience: "2+ years",
       proficiency: 80,
       description: "Cloud computing services and serverless architecture",
     },
     {
       name: "MySQL",
-      icon: <FaDatabase className="text-blue-600" />,
-      color: "bg-blue-600/20 text-blue-600",
-      category: "Database",
+      icon: <FaDatabase className="text-4xl" />,
+      color: "blue",
+      category: "backend",
       experience: "3+ years",
       proficiency: 85,
       description: "Relational database management and optimization",
     },
     {
-      name: "React.js",
-      icon: <FaReact className="text-cyan-400" />,
-      color: "bg-cyan-400/20 text-cyan-400",
-      category: "Frontend Framework",
-      experience: "3+ years",
-      proficiency: 90,
-      description:
-        "Modern React with hooks, context, and component architecture",
-    },
-    {
       name: "HTML/CSS",
       icon: (
-        <div className="flex items-center">
+        <div className="flex items-center text-4xl">
           <FaHtml5 className="text-orange-600 mr-1" />
           <FaCss3Alt className="text-blue-500" />
         </div>
       ),
-      color:
-        "bg-gradient-to-r from-orange-600/20 to-blue-500/20 text-orange-600",
-      category: "Frontend Technologies",
+      color: "orange",
+      category: "frontend",
       experience: "4+ years",
       proficiency: 95,
       description: "Semantic HTML5 and modern CSS3 with responsive design",
     },
     {
       name: "Serverless",
-      icon: <SiServerless className="text-purple-500" />,
-      color: "bg-purple-500/20 text-purple-500",
-      category: "Architecture",
+      icon: <SiServerless className="text-4xl" />,
+      color: "purple",
+      category: "cloud",
       experience: "2+ years",
       proficiency: 80,
       description: "AWS Lambda and serverless application development",
     },
     {
       name: "Express.js",
-      icon: <SiExpress className="text-gray-300" />,
-      color: "bg-gray-300/20 text-gray-300",
-      category: "Backend Framework",
+      icon: <SiExpress className="text-4xl" />,
+      color: "gray",
+      category: "backend",
       experience: "3+ years",
       proficiency: 90,
       description: "Fast, unopinionated web framework for Node.js",
     },
     {
       name: "Git",
-      icon: <FaGitAlt className="text-red-500" />,
-      color: "bg-red-500/20 text-red-500",
-      category: "Version Control",
+      icon: <FaGitAlt className="text-4xl" />,
+      color: "red",
+      category: "tools",
       experience: "4+ years",
       proficiency: 85,
       description: "Version control and collaborative development workflows",
@@ -126,11 +125,72 @@ function TechStack() {
   ];
 
   const categories = [
-    { name: "Programming Languages", icon: FaCode, color: "emerald" },
-    { name: "Frontend", icon: FaLaptopCode, color: "blue" },
-    { name: "Backend", icon: FaTools, color: "purple" },
-    { name: "Cloud & DevOps", icon: FaRocket, color: "orange" },
+    { id: "all", name: "All Technologies", icon: FaCode, color: "emerald" },
+    { id: "languages", name: "Languages", icon: FaCode, color: "blue" },
+    { id: "frontend", name: "Frontend", icon: FaLaptopCode, color: "cyan" },
+    { id: "backend", name: "Backend", icon: FaServer, color: "green" },
+    { id: "cloud", name: "Cloud & DevOps", icon: FaCloud, color: "orange" },
+    { id: "tools", name: "Tools", icon: FaTools, color: "red" },
   ];
+
+  const getColorClasses = (color) => {
+    const colors = {
+      yellow: {
+        bg: "from-yellow-500/10 to-yellow-600/10",
+        border: "border-yellow-500/30",
+        text: "text-yellow-500",
+        glow: "shadow-yellow-500/20",
+      },
+      blue: {
+        bg: "from-blue-500/10 to-blue-600/10",
+        border: "border-blue-500/30",
+        text: "text-blue-500",
+        glow: "shadow-blue-500/20",
+      },
+      green: {
+        bg: "from-green-500/10 to-green-600/10",
+        border: "border-green-500/30",
+        text: "text-green-500",
+        glow: "shadow-green-500/20",
+      },
+      cyan: {
+        bg: "from-cyan-400/10 to-cyan-500/10",
+        border: "border-cyan-400/30",
+        text: "text-cyan-400",
+        glow: "shadow-cyan-400/20",
+      },
+      orange: {
+        bg: "from-orange-500/10 to-orange-600/10",
+        border: "border-orange-500/30",
+        text: "text-orange-500",
+        glow: "shadow-orange-500/20",
+      },
+      purple: {
+        bg: "from-purple-500/10 to-purple-600/10",
+        border: "border-purple-500/30",
+        text: "text-purple-500",
+        glow: "shadow-purple-500/20",
+      },
+      gray: {
+        bg: "from-gray-400/10 to-gray-500/10",
+        border: "border-gray-400/30",
+        text: "text-gray-400",
+        glow: "shadow-gray-400/20",
+      },
+      red: {
+        bg: "from-red-500/10 to-red-600/10",
+        border: "border-red-500/30",
+        text: "text-red-500",
+        glow: "shadow-red-500/20",
+      },
+    };
+    return colors[color] || colors.blue;
+  };
+
+  const filteredSkills =
+    activeCategory === "all"
+      ? skills
+      : skills.filter((skill) => skill.category === activeCategory);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -168,18 +228,6 @@ function TechStack() {
     },
   };
 
-  const categoryVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
-
   return (
     <section
       id="techstack"
@@ -191,66 +239,52 @@ function TechStack() {
         <motion.div
           animate={{
             scale: [1, 1.3, 1],
-            opacity: [0.1, 0.2, 0.1],
+            opacity: [0.5, 0.25, 0.1],
           }}
           transition={{
             duration: 10,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
           }}
-          className="absolute top-32 right-32 w-96 h-96 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-32 right-20 w-96 h-96 bg-gradient-to-r from-emerald-500/15 to-blue-500/15 rounded-full blur-sm"
         />
         <motion.div
           animate={{
             scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.15, 0.1],
+            opacity: [0.1, 0.2, 0.1],
           }}
           transition={{
             duration: 12,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
             delay: 3,
           }}
-          className="absolute bottom-32 left-32 w-80 h-80 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl"
+          className="absolute bottom-32 left-20 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-sm"
         />
 
-        {/* Tech-themed floating elements */}
-        {[...Array(25)].map((_, index) => (
+        {/* Professional floating elements */}
+        {[...Array(12)].map((_, index) => (
           <motion.div
             key={index}
-            className="absolute text-emerald-400/10 text-lg"
+            className="absolute"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -60, 0],
-              opacity: [0.1, 0.3, 0.1],
+              y: [0, -40, 0],
+              opacity: [0.2, 0.6, 0.2],
               rotate: [0, 180, 360],
             }}
             transition={{
-              duration: Math.random() * 10 + 8,
-              repeat: Number.POSITIVE_INFINITY,
+              duration: Math.random() * 6 + 4,
+              repeat: Infinity,
               repeatType: "reverse",
-              delay: index * 0.2,
+              delay: index * 0.3,
             }}>
-            {["⚡", "🚀", "💻", "⚙️", "🔧"][Math.floor(Math.random() * 5)]}
+            <div className="w-3 h-3 bg-gradient-to-r from-emerald-400/40 to-blue-400/40 rounded-full" />
           </motion.div>
         ))}
-      </div>
-
-      {/* Tech grid pattern */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "120px 120px",
-          }}
-        />
       </div>
 
       <motion.div
@@ -258,17 +292,15 @@ function TechStack() {
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         className="container mx-auto px-6 relative z-10">
-        {/* Enhanced section title */}
+        {/* Section title */}
         <motion.div
           variants={titleVariants}
-          className="text-center mb-20">
+          className="text-center mb-16">
           <motion.div
             className="inline-flex items-center gap-3 mb-6"
             whileHover={{ scale: 1.05 }}>
             <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
+              animate={{ rotate: [0, 360] }}
               transition={{
                 duration: 20,
                 repeat: Number.POSITIVE_INFINITY,
@@ -284,99 +316,151 @@ function TechStack() {
           <motion.p
             variants={titleVariants}
             className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            A comprehensive overview of my technical skills and expertise across
-            various technologies, frameworks, and tools.
+            Technologies and tools I use to bring ideas to life
           </motion.p>
         </motion.div>
 
-        {/* Skills showcase */}
-        <div className="max-w-7xl mx-auto">
-          {/* Skills grid */}
-          <motion.div
-            variants={containerVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
-            {skills.map((skill, index) => (
+        {/* Category filters */}
+        <motion.div
+          variants={titleVariants}
+          className="flex flex-wrap justify-center gap-4 mb-12">
+          {categories.map((category) => {
+            const IconComponent = category.icon;
+            return (
+              <motion.button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full border backdrop-blur-sm transition-all duration-300 ${
+                  activeCategory === category.id
+                    ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400"
+                    : "bg-slate-800/50 border-slate-700/50 text-gray-400 hover:text-emerald-400 hover:border-emerald-500/30"
+                }`}>
+                <IconComponent className="text-lg" />
+                <span className="font-medium">{category.name}</span>
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* Skills grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+          {filteredSkills.map((skill, index) => {
+            const colorClasses = getColorClasses(skill.color);
+            return (
               <motion.div
                 key={skill.name}
+                layout
                 variants={skillVariants}
                 whileHover={{
                   scale: 1.05,
                   y: -10,
                 }}
-                onHoverStart={() => setHoveredSkill(index)}
-                onHoverEnd={() => setHoveredSkill(null)}
                 className="group relative">
-                <div className="relative p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:border-emerald-500/30">
+                <div
+                  className={`relative p-6 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl rounded-2xl border ${colorClasses.border} shadow-xl overflow-hidden transition-all duration-300 hover:${colorClasses.glow} hover:shadow-2xl`}>
                   {/* Animated background */}
                   <motion.div
                     animate={{
-                      opacity: hoveredSkill === index ? [0.1, 0.2, 0.1] : 0.05,
-                      scale: hoveredSkill === index ? [1, 1.05, 1] : 1,
+                      opacity: [0.05, 0.1, 0.05],
+                      scale: [1, 1.02, 1],
                     }}
                     transition={{
-                      duration: 2,
+                      duration: 3,
                       repeat: Number.POSITIVE_INFINITY,
                       repeatType: "reverse",
                     }}
-                    className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5 pointer-events-none"
+                    className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg} pointer-events-none`}
                   />
 
-                  {/* Skill content */}
-                  <div className="relative z-10">
-                    {/* Icon and name */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <motion.div
-                        animate={{
-                          rotate: hoveredSkill === index ? [0, 10, -10, 0] : 0,
-                        }}
-                        transition={{ duration: 0.5 }}
-                        className="text-3xl">
-                        {skill.icon}
-                      </motion.div>
-                      <div>
-                        <h3 className="text-lg font-bold text-white">
-                          {skill.name}
-                        </h3>
-                        <p className="text-xs text-gray-400">
-                          {skill.category}
-                        </p>
-                      </div>
+                  {/* Content */}
+                  <div className="relative z-10 text-center">
+                    {/* Icon */}
+                    <motion.div
+                      whileHover={{ rotate: [0, -10, 10, 0] }}
+                      transition={{ duration: 0.5 }}
+                      className={`mb-4 ${colorClasses.text} flex justify-center`}>
+                      {skill.icon}
+                    </motion.div>
+
+                    {/* Name */}
+                    <h3 className="text-lg font-bold text-white mb-2">
+                      {skill.name}
+                    </h3>
+
+                    {/* Experience */}
+                    <div className="flex justify-center mb-3">
+                      <span
+                        className={`px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r ${colorClasses.bg} border ${colorClasses.border} ${colorClasses.text}`}>
+                        {skill.experience}
+                      </span>
                     </div>
 
-                    {/* Experience and proficiency */}
-                    <div className="space-y-3 mb-4">
+                    {/* Proficiency bar */}
+                    <div className="space-y-2 mb-4">
                       <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400">Experience</span>
-                        <span className="text-emerald-400 font-semibold">
-                          {skill.experience}
+                        <span className="text-gray-400">Proficiency</span>
+                        <span className={`font-semibold ${colorClasses.text}`}>
+                          {skill.proficiency}%
                         </span>
                       </div>
-
-                      {/* Proficiency bar */}
-                      <div className="space-y-1">
-                        <div className="flex justify-between items-center text-sm">
-                          <span className="text-gray-400">Proficiency</span>
-                          <span className="text-blue-400 font-semibold">
-                            {skill.proficiency}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-slate-700 rounded-full h-2">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={
-                              isInView
-                                ? { width: `${skill.proficiency}%` }
-                                : { width: 0 }
-                            }
-                            transition={{ duration: 1, delay: index * 0.1 }}
-                            className="bg-gradient-to-r from-emerald-400 to-blue-400 h-2 rounded-full"
-                          />
-                        </div>
+                      <div className="w-full bg-slate-700 rounded-full h-2">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={
+                            isInView
+                              ? { width: `${skill.proficiency}%` }
+                              : { width: 0 }
+                          }
+                          transition={{ duration: 1, delay: index * 0.1 }}
+                          className={`bg-gradient-to-r ${colorClasses.bg.replace(
+                            "/10",
+                            ""
+                          )} h-2 rounded-full`}
+                          style={{
+                            background: `linear-gradient(90deg, ${
+                              skill.color === "yellow"
+                                ? "#eab308"
+                                : skill.color === "blue"
+                                ? "#3b82f6"
+                                : skill.color === "green"
+                                ? "#22c55e"
+                                : skill.color === "cyan"
+                                ? "#06b6d4"
+                                : skill.color === "orange"
+                                ? "#f97316"
+                                : skill.color === "purple"
+                                ? "#a855f7"
+                                : skill.color === "gray"
+                                ? "#6b7280"
+                                : "#ef4444"
+                            }, ${
+                              skill.color === "yellow"
+                                ? "#ca8a04"
+                                : skill.color === "blue"
+                                ? "#2563eb"
+                                : skill.color === "green"
+                                ? "#16a34a"
+                                : skill.color === "cyan"
+                                ? "#0891b2"
+                                : skill.color === "orange"
+                                ? "#ea580c"
+                                : skill.color === "purple"
+                                ? "#9333ea"
+                                : skill.color === "gray"
+                                ? "#4b5563"
+                                : "#dc2626"
+                            })`,
+                          }}
+                        />
                       </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-300 leading-relaxed">
+                    <p className="text-sm text-gray-400 leading-relaxed">
                       {skill.description}
                     </p>
                   </div>
@@ -385,81 +469,47 @@ function TechStack() {
                   <motion.div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{
-                      background:
-                        "linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent)",
-                      boxShadow: "0 0 30px rgba(16, 185, 129, 0.1)",
+                      background: `linear-gradient(135deg, ${
+                        skill.color === "yellow"
+                          ? "rgba(234, 179, 8, 0.1)"
+                          : skill.color === "blue"
+                          ? "rgba(59, 130, 246, 0.1)"
+                          : skill.color === "green"
+                          ? "rgba(34, 197, 94, 0.1)"
+                          : skill.color === "cyan"
+                          ? "rgba(6, 182, 212, 0.1)"
+                          : skill.color === "orange"
+                          ? "rgba(249, 115, 22, 0.1)"
+                          : skill.color === "purple"
+                          ? "rgba(168, 85, 247, 0.1)"
+                          : skill.color === "gray"
+                          ? "rgba(107, 114, 128, 0.1)"
+                          : "rgba(239, 68, 68, 0.1)"
+                      }, transparent)`,
+                      boxShadow: `0 0 30px ${
+                        skill.color === "yellow"
+                          ? "rgba(234, 179, 8, 0.2)"
+                          : skill.color === "blue"
+                          ? "rgba(59, 130, 246, 0.2)"
+                          : skill.color === "green"
+                          ? "rgba(34, 197, 94, 0.2)"
+                          : skill.color === "cyan"
+                          ? "rgba(6, 182, 212, 0.2)"
+                          : skill.color === "orange"
+                          ? "rgba(249, 115, 22, 0.2)"
+                          : skill.color === "purple"
+                          ? "rgba(168, 85, 247, 0.2)"
+                          : skill.color === "gray"
+                          ? "rgba(107, 114, 128, 0.2)"
+                          : "rgba(239, 68, 68, 0.2)"
+                      }`,
                     }}
                   />
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Skills summary */}
-          <motion.div
-            variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category, index) => {
-              const IconComponent = category.icon;
-              const categorySkills = skills.filter((skill) => {
-                switch (category.name) {
-                  case "Programming Languages":
-                    return ["JavaScript", "Python"].includes(skill.name);
-                  case "Frontend":
-                    return ["React.js", "HTML/CSS"].includes(skill.name);
-                  case "Backend":
-                    return ["Node.js", "Express.js", "MySQL"].includes(
-                      skill.name
-                    );
-                  case "Cloud & DevOps":
-                    return ["AWS", "Serverless", "Git"].includes(skill.name);
-                  default:
-                    return false;
-                }
-              });
-
-              return (
-                <motion.div
-                  key={category.name}
-                  variants={categoryVariants}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  className="group">
-                  <div className="relative p-6 bg-gradient-to-br from-slate-800/40 to-slate-900/40 backdrop-blur-xl rounded-2xl border border-slate-700/30 shadow-lg overflow-hidden">
-                    {/* Category header */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-emerald-500/20 rounded-lg border border-emerald-500/30">
-                        <IconComponent className="text-emerald-400 text-xl" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-white">
-                          {category.name}
-                        </h4>
-                        <p className="text-sm text-gray-400">
-                          {categorySkills.length} technologies
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Category skills */}
-                    <div className="space-y-2">
-                      {categorySkills.map((skill, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-2 text-sm text-gray-300">
-                          <div className="w-2 h-2 bg-emerald-400 rounded-full" />
-                          <span>{skill.name}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Hover effect */}
-                    <motion.div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
+            );
+          })}
+        </motion.div>
 
         {/* Bottom summary */}
         <motion.div
@@ -467,8 +517,8 @@ function TechStack() {
           animate={
             isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
           }
-          transition={{ delay: 2, duration: 0.8 }}
-          className="text-center mt-20">
+          transition={{ delay: 1.5, duration: 0.8 }}
+          className="text-center mt-16">
           <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-full border border-emerald-500/20 backdrop-blur-sm">
             <motion.div
               animate={{ rotate: 360 }}

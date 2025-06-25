@@ -8,7 +8,6 @@ import {
   FaCode,
   FaRocket,
   FaTools,
-  FaEye,
   FaStar,
   FaCalendarAlt,
 } from "react-icons/fa";
@@ -20,7 +19,7 @@ function Projects() {
 
   const projects = [
     {
-      title: "Resume Builder Project",
+      title: "Resume Builder",
       category: "Full-Stack Application",
       description:
         "A comprehensive full-stack application that revolutionizes resume creation with ATS-friendly templates, real-time preview, and drag-and-drop functionality. Built with modern technologies to provide seamless PDF generation and an intuitive user experience.",
@@ -36,7 +35,7 @@ function Projects() {
       githubLink: "https://github.com/priyanshudubey/resume-builder",
       demoLink: "#",
       status: "completed",
-      year: "2023",
+      year: "Januray 2025",
       features: [
         "ATS-friendly resume templates",
         "Real-time preview functionality",
@@ -65,7 +64,7 @@ function Projects() {
       githubLink: "https://github.com/priyanshudubey/email-template-system",
       demoLink: "#",
       status: "completed",
-      year: "2023",
+      year: "November 2024",
       features: [
         "Dynamic template creation",
         "Live preview functionality",
@@ -166,10 +165,10 @@ function Projects() {
           }}
           transition={{
             duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
           }}
-          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-sm"
         />
         <motion.div
           animate={{
@@ -178,11 +177,11 @@ function Projects() {
           }}
           transition={{
             duration: 10,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
             delay: 2,
           }}
-          className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-sm"
         />
 
         {/* Floating particles */}
@@ -200,7 +199,7 @@ function Projects() {
             }}
             transition={{
               duration: Math.random() * 4 + 3,
-              repeat: Number.POSITIVE_INFINITY,
+              repeat: Infinity,
               repeatType: "reverse",
               delay: index * 0.2,
             }}
@@ -240,7 +239,7 @@ function Projects() {
               }}
               transition={{
                 duration: 15,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 ease: "linear",
               }}
               className="p-3 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full backdrop-blur-sm border border-emerald-500/30">
@@ -264,8 +263,7 @@ function Projects() {
           {/* Timeline line */}
           <motion.div
             variants={timelineVariants}
-            className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-emerald-400 via-blue-400 to-purple-400 rounded-full origin-top hidden lg:block"
-            style={{ height: "calc(100% - 100px)", top: "50px" }}
+            className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-400 via-blue-400 to-purple-400 rounded-full origin-top hidden lg:block"
           />
 
           {/* Project cards */}
@@ -285,16 +283,19 @@ function Projects() {
                   onHoverEnd={() => setHoveredProject(null)}>
                   {/* Timeline dot */}
                   <motion.div
-                    whileHover={{ scale: 1.4 }}
-                    className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r from-slate-800 to-slate-900 rounded-full border-4 border-emerald-400 z-10 hidden lg:flex items-center justify-center shadow-2xl">
-                    <IconComponent className="text-emerald-400 text-lg" />
+                    initial={{ x: "-50%" }}
+                    animate={{ x: "-50%" }}
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r ${colorClasses.bg} rounded-full border-4 border-slate-900 z-10 hidden lg:flex items-center justify-center`}>
+                    <IconComponent className={`text-lg ${colorClasses.text}`} />
                     <motion.div
                       animate={{ scale: [1, 2, 1] }}
                       transition={{
                         duration: 3,
-                        repeat: Number.POSITIVE_INFINITY,
+                        repeat: Infinity,
                       }}
-                      className="absolute inset-0 bg-gradient-to-r from-emerald-400/30 to-blue-400/30 rounded-full"
+                      className={`absolute inset-0 bg-gradient-to-r ${colorClasses.bg} rounded-full opacity-30`}
                     />
                   </motion.div>
 
@@ -302,11 +303,8 @@ function Projects() {
                   <motion.div
                     whileHover={{
                       scale: 1.02,
-                      rotateY: index % 2 === 0 ? 3 : -3,
                     }}
-                    className={`w-full lg:w-[49%] group ${
-                      index % 2 === 0 ? "lg:-translate-x-6" : "lg:translate-x-6"
-                    }`}>
+                    className="w-full lg:w-1/2 group">
                     <div
                       className={`relative p-8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl rounded-3xl border ${colorClasses.border} shadow-2xl overflow-hidden`}>
                       {/* Animated background */}
@@ -318,7 +316,7 @@ function Projects() {
                         }}
                         transition={{
                           duration: 2,
-                          repeat: Number.POSITIVE_INFINITY,
+                          repeat: Infinity,
                           repeatType: "reverse",
                         }}
                         className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg} pointer-events-none`}
@@ -342,7 +340,11 @@ function Projects() {
                       {/* Header */}
                       <div className="relative z-10 mb-6">
                         <motion.div
-                          whileHover={{ scale: 1.02 }}
+                          initial={{ scale: 1, rotate: 0 }}
+                          whileHover={{
+                            scale: 1.1,
+                            rotate: [0, 5, -5, 0],
+                          }}
                           className="mb-4">
                           <div className="flex items-center gap-3 mb-2">
                             <div
@@ -362,7 +364,7 @@ function Projects() {
                       </div>
 
                       {/* Project mockup placeholder */}
-                      <motion.div
+                      {/* <motion.div
                         whileHover={{ scale: 1.02 }}
                         className="relative mb-6 h-48 bg-gradient-to-br from-slate-700/50 to-slate-800/50 rounded-xl border border-gray-600/30 overflow-hidden">
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -381,12 +383,12 @@ function Projects() {
                           }}
                           transition={{
                             duration: 3,
-                            repeat: Number.POSITIVE_INFINITY,
+                            repeat: Infinity,
                             repeatType: "reverse",
                           }}
                           className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg}`}
                         />
-                      </motion.div>
+                      </motion.div> */}
 
                       {/* Content */}
                       <div className="relative z-10 space-y-6">
@@ -471,8 +473,8 @@ function Projects() {
                     </div>
                   </motion.div>
 
-                  {/* Spacer */}
-                  <div className="w-full lg:w-5/12 hidden lg:block" />
+                  {/* Spacer for timeline */}
+                  <div className="w-full lg:w-1/2 hidden lg:block" />
                 </motion.div>
               );
             })}
@@ -492,7 +494,7 @@ function Projects() {
               animate={{ rotate: 360 }}
               transition={{
                 duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 ease: "linear",
               }}>
               <FaCode className="text-emerald-400" />
@@ -502,7 +504,7 @@ function Projects() {
             </span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
+              transition={{ duration: 2, repeat: Infinity }}>
               <FaRocket className="text-blue-400" />
             </motion.div>
           </div>

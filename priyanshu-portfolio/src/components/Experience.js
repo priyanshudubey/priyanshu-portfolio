@@ -183,10 +183,10 @@ function Experience() {
           }}
           transition={{
             duration: 10,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
           }}
-          className="absolute top-32 right-20 w-96 h-96 bg-gradient-to-r from-emerald-500/15 to-blue-500/15 rounded-full blur-3xl"
+          className="absolute top-32 right-20 w-96 h-96 bg-gradient-to-r from-emerald-500/15 to-blue-500/15 rounded-full blur-sm"
         />
         <motion.div
           animate={{
@@ -195,11 +195,11 @@ function Experience() {
           }}
           transition={{
             duration: 12,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             repeatType: "reverse",
             delay: 3,
           }}
-          className="absolute bottom-32 left-20 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl"
+          className="absolute bottom-32 left-20 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-sm"
         />
 
         {/* Professional floating elements */}
@@ -218,11 +218,11 @@ function Experience() {
             }}
             transition={{
               duration: Math.random() * 6 + 4,
-              repeat: Number.POSITIVE_INFINITY,
+              repeat: Infinity,
               repeatType: "reverse",
               delay: index * 0.3,
             }}>
-            <div className="w-3 h-3 bg-gradient-to-r from-emerald-400/40 to-blue-400/40 rounded-full blur-sm" />
+            <div className="w-3 h-3 bg-gradient-to-r from-emerald-400/40 to-blue-400/40 rounded-full" />
           </motion.div>
         ))}
       </div>
@@ -261,12 +261,12 @@ function Experience() {
               transition={{
                 rotate: {
                   duration: 20,
-                  repeat: Number.POSITIVE_INFINITY,
+                  repeat: Infinity,
                   ease: "linear",
                 },
                 scale: {
                   duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
+                  repeat: Infinity,
                   repeatType: "reverse",
                 },
               }}
@@ -309,14 +309,17 @@ function Experience() {
                   }`}>
                   {/* Timeline dot */}
                   <motion.div
-                    whileHover={{ scale: 1.3 }}
-                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-8 bg-gradient-to-r ${colorClasses.bg} rounded-full border-4 border-slate-900 z-10 hidden lg:flex items-center justify-center`}>
-                    <IconComponent className={`text-sm ${colorClasses.text}`} />
+                    initial={{ x: "-50%" }}
+                    animate={{ x: "-50%" }}
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r ${colorClasses.bg} rounded-full border-4 border-slate-900 z-10 hidden lg:flex items-center justify-center`}>
+                    <IconComponent className={`text-lg ${colorClasses.text}`} />
                     <motion.div
                       animate={{ scale: [1, 1.8, 1] }}
                       transition={{
                         duration: 2,
-                        repeat: Number.POSITIVE_INFINITY,
+                        repeat: Infinity,
                       }}
                       className={`absolute inset-0 bg-gradient-to-r ${colorClasses.bg} rounded-full opacity-30`}
                     />
@@ -326,7 +329,6 @@ function Experience() {
                   <motion.div
                     whileHover={{
                       scale: 1.02,
-                      rotateY: index % 2 === 0 ? 2 : -2,
                     }}
                     className="w-full lg:w-1/2 group">
                     <div
@@ -339,7 +341,7 @@ function Experience() {
                         }}
                         transition={{
                           duration: 5,
-                          repeat: Number.POSITIVE_INFINITY,
+                          repeat: Infinity,
                           repeatType: "reverse",
                         }}
                         className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg} pointer-events-none`}
@@ -361,7 +363,11 @@ function Experience() {
                       {/* Header */}
                       <div className="relative z-10 mb-6">
                         <motion.div
-                          whileHover={{ scale: 1.05 }}
+                          initial={{ scale: 1, rotate: 0 }}
+                          whileHover={{
+                            scale: 1.1,
+                            rotate: [0, 5, -5, 0],
+                          }}
                           className="inline-flex items-center gap-3 mb-4">
                           <div
                             className={`p-3 rounded-xl bg-gradient-to-r ${colorClasses.bg} border ${colorClasses.border}`}>
@@ -471,7 +477,7 @@ function Experience() {
               animate={{ rotate: 360 }}
               transition={{
                 duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 ease: "linear",
               }}>
               <FaBriefcase className="text-emerald-400" />
@@ -481,7 +487,7 @@ function Experience() {
             </span>
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}>
+              transition={{ duration: 2, repeat: Infinity }}>
               <FaRocket className="text-blue-400" />
             </motion.div>
           </div>

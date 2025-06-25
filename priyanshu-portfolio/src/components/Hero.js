@@ -10,6 +10,7 @@ import {
   FaWhatsapp,
   FaMedium,
   FaArrowDown,
+  FaYoutube,
 } from "react-icons/fa";
 import * as THREE from "three";
 
@@ -22,8 +23,17 @@ function Hero() {
   ];
   const [currentTitle, setCurrentTitle] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [underlineWidth, setUnderlineWidth] = useState(0);
+  const titleRef = useRef(null);
+
   const canvasRef = useRef(null);
   const sceneRef = useRef(null);
+
+  useEffect(() => {
+    if (titleRef.current) {
+      setUnderlineWidth(titleRef.current.offsetWidth);
+    }
+  }, [currentTitle]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,24 +43,36 @@ function Hero() {
     return () => clearInterval(interval);
   }, [titles.length]);
 
-  // Mouse tracking for parallax effect
+  // Optimized mouse tracking with throttling
   useEffect(() => {
+    let ticking = false;
+
     const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1,
-      });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setMousePosition({
+            x: (e.clientX / window.innerWidth) * 2 - 1,
+            y: -(e.clientY / window.innerHeight) * 2 + 1,
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Enhanced 3D Scene Setup
+  // Optimized 3D Scene Setup
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    // Scene setup
+    // Check for device capabilities
+    const isMobile = window.innerWidth < 768;
+    const isLowEnd = navigator.hardwareConcurrency < 4;
+
+    // Scene setup with optimized settings
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -61,19 +83,25 @@ function Hero() {
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current,
       alpha: true,
-      antialias: true,
+      antialias: !isMobile, // Disable antialiasing on mobile
+      powerPreference: "high-performance",
     });
+
+    // Optimize renderer settings
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 2));
+    renderer.shadowMap.enabled = false; // Disable shadows for performance
 
     sceneRef.current = { scene, camera, renderer };
 
-    // Create multiple geometric shapes
+    // Create optimized geometric shapes
     const shapes = [];
+    const particleCount = isMobile ? 15 : isLowEnd ? 25 : 35; // Reduce particles on low-end devices
 
-    // Main icosahedron
-    const mainGeometry = new THREE.IcosahedronGeometry(1.2, 2);
-    const mainMaterial = new THREE.MeshStandardMaterial({
+    // Main icosahedron with lower detail
+    const mainGeometry = new THREE.IcosahedronGeometry(1.2, isMobile ? 1 : 2);
+    const mainMaterial = new THREE.MeshBasicMaterial({
+      // Use MeshBasicMaterial for better performance
       color: 0x10b981,
       wireframe: true,
       transparent: true,
@@ -84,9 +112,14 @@ function Hero() {
     scene.add(mainMesh);
     shapes.push({ mesh: mainMesh, speed: { x: 0.01, y: 0.005 } });
 
-    // Secondary torus
-    const torusGeometry = new THREE.TorusGeometry(0.8, 0.3, 16, 100);
-    const torusMaterial = new THREE.MeshStandardMaterial({
+    // Secondary torus with lower segments
+    const torusGeometry = new THREE.TorusGeometry(
+      0.8,
+      0.3,
+      isMobile ? 8 : 12,
+      isMobile ? 24 : 48
+    );
+    const torusMaterial = new THREE.MeshBasicMaterial({
       color: 0x3b82f6,
       wireframe: true,
       transparent: true,
@@ -97,15 +130,15 @@ function Hero() {
     scene.add(torusMesh);
     shapes.push({ mesh: torusMesh, speed: { x: 0.008, y: 0.012 } });
 
-    // Floating particles
-    const particleGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+    // Optimized particle system using instanced geometry
+    const particleGeometry = new THREE.SphereGeometry(0.02, 4, 4); // Lower detail spheres
     const particleMaterial = new THREE.MeshBasicMaterial({
       color: 0x10b981,
       transparent: true,
       opacity: 0.8,
     });
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < particleCount; i++) {
       const particle = new THREE.Mesh(particleGeometry, particleMaterial);
       particle.position.set(
         (Math.random() - 0.5) * 10,
@@ -123,31 +156,38 @@ function Hero() {
       });
     }
 
-    // Enhanced lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    // Simplified lighting for better performance
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0x10b981, 1, 100);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0x3b82f6, 0.8, 100);
-    pointLight2.position.set(-5, -5, 5);
-    scene.add(pointLight2);
+    // Reduce point lights on mobile
+    if (!isMobile) {
+      const pointLight1 = new THREE.PointLight(0x10b981, 0.8, 50);
+      pointLight1.position.set(5, 5, 5);
+      scene.add(pointLight1);
+    }
 
     // Camera positioning
     camera.position.z = 4;
 
-    // Animation loop
-    const animate = () => {
+    // Optimized animation loop with frame limiting
+    let lastTime = 0;
+    const targetFPS = isMobile ? 30 : 60;
+    const frameInterval = 1000 / targetFPS;
+
+    const animate = (currentTime) => {
       requestAnimationFrame(animate);
+
+      // Limit frame rate for better performance
+      if (currentTime - lastTime < frameInterval) return;
+      lastTime = currentTime;
 
       shapes.forEach((shape, index) => {
         if (shape.originalPosition) {
-          // Floating animation for particles
+          // Floating animation for particles with reduced calculations
           shape.mesh.position.y =
             shape.originalPosition.y +
-            Math.sin(Date.now() * 0.001 + index) * 0.5;
+            Math.sin(currentTime * 0.001 + index) * 0.5;
           shape.mesh.rotation.x += shape.speed.x;
           shape.mesh.rotation.y += shape.speed.y;
         } else {
@@ -157,29 +197,45 @@ function Hero() {
         }
       });
 
-      // Camera parallax effect
-      camera.position.x += (mousePosition.x * 0.5 - camera.position.x) * 0.05;
-      camera.position.y += (mousePosition.y * 0.5 - camera.position.y) * 0.05;
-      camera.lookAt(scene.position);
+      // Reduced parallax effect calculation frequency
+      if (currentTime % 3 === 0) {
+        // Only update every 3rd frame
+        camera.position.x += (mousePosition.x * 0.3 - camera.position.x) * 0.04;
+        camera.position.y += (mousePosition.y * 0.3 - camera.position.y) * 0.04;
+        camera.lookAt(scene.position);
+      }
 
       renderer.render(scene, camera);
     };
-    animate();
+    animate(0);
 
-    // Resize handler
+    // Optimized resize handler with debouncing
+    let resizeTimeout;
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }, 250);
     };
     window.addEventListener("resize", handleResize);
 
-    // Cleanup
+    // Enhanced cleanup
     return () => {
       window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+
+      // Dispose of geometries and materials
+      shapes.forEach((shape) => {
+        if (shape.mesh.geometry) shape.mesh.geometry.dispose();
+        if (shape.mesh.material) shape.mesh.material.dispose();
+      });
+
       renderer.dispose();
+      scene.clear();
     };
-  }, [mousePosition]);
+  }, []); // Remove mousePosition dependency to prevent recreating scene
 
   const socialLinks = [
     {
@@ -218,6 +274,12 @@ function Hero() {
       color: "hover:text-gray-100",
       label: "Medium",
     },
+    {
+      icon: <FaYoutube />,
+      href: "https://www.youtube.com/@toastercode",
+      color: "hover:text-red-500",
+      label: "YouTube",
+    },
   ];
 
   // Enhanced animation variants
@@ -250,7 +312,7 @@ function Hero() {
       y: [0, -10, 0],
       transition: {
         duration: 3,
-        repeat: Number.POSITIVE_INFINITY,
+        repeat: Infinity,
         ease: "easeInOut",
       },
     },
@@ -276,41 +338,47 @@ function Hero() {
             linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px)
           `,
-            backgroundSize: "50px 50px",
+            backgroundSize: "80px 80px",
           }}
         />
       </div>
 
-      {/* Enhanced floating particles */}
+      {/* Optimized floating particles */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, index) => (
-          <motion.div
-            key={index}
-            className="absolute"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              x: [0, Math.random() * 100 - 50, 0],
-              y: [0, Math.random() * 100 - 50, 0],
-              opacity: [0.1, 0.4, 0.1],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: Math.random() * 8 + 4,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              delay: index * 0.2,
-            }}>
-            <div
-              className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full blur-sm"
+        {[...Array(8)].map(
+          (
+            _,
+            index // Reduced from 20 to 8
+          ) => (
+            <motion.div
+              key={index}
+              className="absolute"
               style={{
-                boxShadow: "0 0 10px rgba(16, 185, 129, 0.5)",
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
               }}
-            />
-          </motion.div>
-        ))}
+              animate={{
+                x: [0, Math.random() * 50 - 25, 0], // Reduced movement range
+                y: [0, Math.random() * 50 - 25, 0],
+                opacity: [0.1, 0.3, 0.1], // Reduced opacity
+                scale: [1, 1.1, 1], // Reduced scale change
+              }}
+              transition={{
+                duration: Math.random() * 6 + 6, // Longer duration for smoother animation
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: index * 0.5,
+                ease: "easeInOut", // Smoother easing
+              }}>
+              <div
+                className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full blur-sm"
+                style={{
+                  boxShadow: "0 0 8px rgba(16, 185, 129, 0.3)", // Reduced glow
+                }}
+              />
+            </motion.div>
+          )
+        )}
       </div>
 
       {/* Main Content */}
@@ -320,7 +388,7 @@ function Hero() {
         variants={containerVariants}
         className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between relative z-10 gap-12">
         {/* Left Content */}
-        <div className="lg:w-3/5 space-y-8">
+        <div className="lg:w-3/5 space-y-4">
           <motion.div
             variants={itemVariants}
             className="space-y-2">
@@ -361,14 +429,27 @@ function Hero() {
                   stiffness: 200,
                 }}
                 className="absolute inset-0 flex items-center">
-                <span className="text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
-                  {titles[currentTitle]}
+                {/* Title + Underline wrapper */}
+                <span className="relative inline-block">
+                  <span className="text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+                    {titles[currentTitle]}
+                  </span>
+
+                  {/* Glowing underline */}
+                  <motion.span
+                    className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                  />
                 </span>
-                <motion.div
+
+                {/* Blinking cursor */}
+                {/* <motion.div
                   className="ml-2 w-1 h-8 bg-emerald-400"
                   animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
-                />
+                  transition={{ duration: 1, repeat: Infinity }}
+                /> */}
               </motion.div>
             </AnimatePresence>
           </motion.div>
@@ -376,19 +457,18 @@ function Hero() {
           <motion.p
             variants={itemVariants}
             className="text-lg text-gray-300 max-w-2xl leading-relaxed">
-            Passionate Software Engineer with over 3 years of experience in
-            designing and building scalable solutions in cloud and back-end
-            development. Proficient in Node.js, AWS, and serverless
-            architectures.
+            Software Engineer with 3+ years of experience building scalable,
+            cloud-native back-end systems using Node.js, AWS, and serverless
+            tech.
             <br />
             <br />
-            Currently pursuing Master's in{" "}
+            Recently completed my{" "}
             <span className="text-emerald-400 font-semibold">
-              Advanced Computer Science
+              Master's in Advanced Computer Science
             </span>{" "}
-            from Swansea University.
+            from Swansea University. Actively seeking full-time roles in the UK
+            or remote, with full visa eligibility.
           </motion.p>
-
           {/* Enhanced CTA buttons */}
           <motion.div
             variants={itemVariants}
@@ -399,7 +479,7 @@ function Hero() {
                 boxShadow: "0 10px 30px rgba(16, 185, 129, 0.3)",
               }}
               whileTap={{ scale: 0.95 }}
-              href="https://drive.google.com/file/d/1kaSAUFixvZdDSwU3uswYaSA5E_5Ro3Uq/view?usp=sharing"
+              href="https://drive.google.com/file/d/1-lssjoGdIoeHpE50HRZAW5PJ66J27wwa/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-black font-semibold rounded-xl hover:from-emerald-400 hover:to-emerald-500 transition-all duration-300 flex items-center justify-center gap-2">
@@ -408,7 +488,7 @@ function Hero() {
                 animate={{ x: [0, 5, 0] }}
                 transition={{
                   duration: 1.5,
-                  repeat: Number.POSITIVE_INFINITY,
+                  repeat: Infinity,
                 }}>
                 →
               </motion.span>
@@ -461,7 +541,7 @@ function Hero() {
               }}
               transition={{
                 duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
+                repeat: Infinity,
                 repeatType: "reverse",
               }}
               className="absolute -inset-8 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-emerald-500/20 rounded-3xl blur-2xl"
@@ -479,7 +559,7 @@ function Hero() {
                 animate={{ rotate: 360 }}
                 transition={{
                   duration: 20,
-                  repeat: Number.POSITIVE_INFINITY,
+                  repeat: Infinity,
                   ease: "linear",
                 }}
                 className="absolute inset-0 rounded-3xl bg-gradient-to-r from-emerald-400 via-blue-400 to-emerald-400 p-1">
@@ -494,7 +574,7 @@ function Hero() {
                   }}
                   transition={{
                     duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
+                    repeat: Infinity,
                     repeatType: "reverse",
                   }}
                   className="w-full h-full bg-gradient-to-br from-emerald-500/10 to-blue-500/10 flex items-center justify-center">
