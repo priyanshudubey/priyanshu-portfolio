@@ -10,7 +10,7 @@ import Projects from "./components/Projects";
 
 function App() {
   return (
-    <div className="bg-[#202020] min-h-screen text-white relative overflow-hidden">
+    <div className="bg-white min-h-screen text-gray-900 relative overflow-hidden">
       <Navbar />
       <section id="home">
         <Hero />

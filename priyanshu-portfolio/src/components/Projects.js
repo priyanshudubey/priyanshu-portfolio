@@ -1,517 +1,227 @@
-"use client";
+import React from "react";
+import { 
+  Github, 
+  ExternalLink, 
+  Database, 
+  Activity, 
+  Code, 
+  Package,
+  Cpu,
+  Server,
+  Terminal,
+  GitBranch
+} from "lucide-react";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import {
-  FaGithub,
-  FaExternalLinkAlt,
-  FaCode,
-  FaRocket,
-  FaTools,
-  FaStar,
-  FaCalendarAlt,
-} from "react-icons/fa";
-
-function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [hoveredProject, setHoveredProject] = useState(null);
-
-  const projects = [
+const projects = {
+  featured: {
+    title: "DevElevator",
+    subtitle: "Code-Aware RAG Engine for GitHub",
+    description:
+      "An advanced Agentic AI system that ingests, parses, and enables natural language interaction with complex GitHub repositories. Engineered a custom RAG pipeline utilizing AST (Abstract Syntax Tree) parsing to intelligently chunk functions and classes, maintaining strict semantic coherence. Integrated OpenAI's specialized embeddings with a Supabase (pgvector) database for high-precision vector similarity search, completely eliminating LLM hallucinations during code context retrieval.",
+    technologies: [
+      "Python",
+      "FastAPI",
+      "Supabase (pgvector)",
+      "OpenAI Embeddings",
+      "AST Parsing",
+      "LLM Orchestration",
+    ],
+    metrics: [
+      "Semantic Code Chunking",
+      "Sub-second Vector Search",
+      "Context-Aware Generation"
+    ],
+    icon: Cpu,
+    github: "https://github.com/priyanshudubey/develevetor-web",
+    live: "http://develevator.me/" 
+  },
+  freelance: [
     {
-      title: "Resume Builder",
-      category: "Full-Stack Application",
+      title: "VST Industrial ERP",
+      subtitle: "Inventory & Dispatch Engine",
       description:
-        "A comprehensive full-stack application that revolutionizes resume creation with ATS-friendly templates, real-time preview, and drag-and-drop functionality. Built with modern technologies to provide seamless PDF generation and an intuitive user experience.",
-      technologies: [
-        "React.js",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "PDF.js",
-        "JWT",
-        "Tailwind CSS",
-      ],
-      githubLink: "https://github.com/priyanshudubey/resume-builder",
-      demoLink: "#",
-      status: "completed",
-      year: "Januray 2025",
-      features: [
-        "ATS-friendly resume templates",
-        "Real-time preview functionality",
-        "Drag-and-drop interface",
-        "Seamless PDF generation",
-        "User authentication system",
-        "Template customization",
-      ],
-      color: "emerald",
-      icon: FaCode,
-      type: "web-app",
+        "Architected a full-scale inventory and dispatch management system to track incoming and outgoing steel products. Engineered a data-analytics dashboard to process historical sales data, identifying supply-chain bottlenecks for enterprise-level decision making.",
+      technologies: ["React", "Python", "Node.js", "SQL", "Analytics"],
+      icon: Package,
+      live: "https://inventory.vstbokaro.com",
     },
     {
-      title: "Email Template System",
-      category: "Dynamic Web Platform",
+      title: "Smart POS & Analytics",
+      subtitle: "UK Food & Beverage Sector",
       description:
-        "An advanced email template management system featuring dynamic placeholder rendering, live preview capabilities, and automated email sending. Designed for scalability and ease of use with a modern tech stack.",
-      technologies: [
-        "React.js",
-        "Node.js",
-        "MySQL",
-        "Mustache.js",
-        "Express",
-        "REST API",
-      ],
-      githubLink: "https://github.com/priyanshudubey/email-template-system",
-      demoLink: "#",
-      status: "completed",
-      year: "November 2024",
-      features: [
-        "Dynamic template creation",
-        "Live preview functionality",
-        "Placeholder rendering",
-        "Automated email sending",
-        "Template management system",
-        "RESTful API integration",
-      ],
-      color: "blue",
-      icon: FaTools,
-      type: "platform",
+        "Developed a contactless QR menu system integrated with a centralized POS dashboard for a restaurant in the UK. Designed a custom data pipeline to aggregate daily order metrics, providing actionable analytics on revenue forecasting.",
+      technologies: ["Node.js", "React", "Python", "Pipelines"],
+      icon: Activity,
+      live: "#",
     },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
-      },
+    {
+      title: "VST Corporate Portal",
+      subtitle: "B2B Client Acquisition",
+      description:
+        "Designed and deployed a highly performant corporate portfolio website for an industrial steel trading enterprise. Focused on responsive design, SEO optimization, and sub-second load times to establish a strong digital B2B presence.",
+      technologies: ["React", "Tailwind CSS", "SEO", "UI/UX"],
+      icon: Server,
+      live: "https://vstbokaro.com",
     },
-  };
+  ]
+};
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: -30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const timelineVariants = {
-    hidden: { scaleY: 0 },
-    visible: {
-      scaleY: 1,
-      transition: {
-        duration: 1.2,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const getColorClasses = (color) => {
-    const colors = {
-      emerald: {
-        bg: "from-emerald-500/10 to-green-500/10",
-        border: "border-emerald-500/30",
-        text: "text-emerald-400",
-        badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-        glow: "rgba(16, 185, 129, 0.1)",
-        button:
-          "from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500",
-      },
-      blue: {
-        bg: "from-blue-500/10 to-cyan-500/10",
-        border: "border-blue-500/30",
-        text: "text-blue-400",
-        badge: "bg-blue-500/20 text-blue-300 border-blue-500/30",
-        glow: "rgba(59, 130, 246, 0.1)",
-        button:
-          "from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500",
-      },
-    };
-    return colors[color] || colors.emerald;
-  };
+const Projects = () => {
+  const featured = projects.featured;
 
   return (
-    <section
-      id="projects"
-      ref={ref}
-      className="min-h-screen py-20 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Enhanced background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Animated gradient orbs */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full blur-sm"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: 2,
-          }}
-          className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-sm"
-        />
+    <section id="projects" className="relative w-full py-24 bg-[#fcfcfc] text-slate-900 overflow-hidden border-t border-slate-200">
+      
+      {/* Precision Blueprint Grid Layer */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60"></div>
 
-        {/* Floating particles */}
-        {[...Array(15)].map((_, index) => (
-          <motion.div
-            key={index}
-            className="absolute w-2 h-2 bg-emerald-400/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: Math.random() * 4 + 3,
-              repeat: Infinity,
-              repeatType: "reverse",
-              delay: index * 0.2,
-            }}
-          />
-        ))}
-      </div>
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-24">
+        
+        {/* Section Header */}
+        <div className="mb-16 max-w-4xl border-l-2 border-slate-900 pl-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            System Architecture <span className="text-blue-600">& Microservices</span>
+          </h2>
+          
+          {/* Mini Inline Terminal Execution */}
+          <div className="mt-5 inline-flex items-center gap-2 bg-slate-900 rounded-md px-4 py-2.5 font-mono text-sm shadow-sm border border-slate-800 overflow-x-auto max-w-full">
+            <span className="text-emerald-400 font-bold shrink-0">priyanshu@prod:~$</span>
+            <span className="text-slate-200 whitespace-nowrap">ls -la /var/www/active_projects</span>
+            <span className="w-2 h-4 bg-slate-400 animate-pulse rounded-sm inline-block shrink-0"></span>
+          </div>
+        </div>
 
-      {/* Code pattern overlay */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "100px 100px",
-          }}
-        />
-      </div>
+        {/* Pipeline Container for Featured Project */}
+        <div className="w-full relative border-l-2 border-slate-200 ml-2 md:ml-8 py-4 mb-12">
+          
+          <div className="relative pl-8 md:pl-12 group">
+            
+            {/* Main Node Connection */}
+            <div className="absolute -left-[10px] top-8 w-5 h-5 bg-white border-4 border-blue-600 rounded-sm"></div>
+            <div className="absolute left-0 top-10 w-8 h-0.5 bg-blue-200"></div>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className="container mx-auto px-6 relative z-10">
-        {/* Enhanced section title */}
-        <motion.div
-          variants={titleVariants}
-          className="text-center mb-20">
-          <motion.div
-            className="inline-flex items-center gap-3 mb-6"
-            whileHover={{ scale: 1.05 }}>
-            <motion.div
-              animate={{
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="p-3 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-full backdrop-blur-sm border border-emerald-500/30">
-              <FaRocket className="text-2xl text-emerald-400" />
-            </motion.div>
-            <h2 className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Projects
-            </h2>
-          </motion.div>
-          <motion.p
-            variants={titleVariants}
-            className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            A showcase of my technical expertise through full-stack
-            applications, demonstrating problem-solving skills and modern
-            development practices.
-          </motion.p>
-        </motion.div>
+            {/* Core Project Block */}
+            <div className="bg-white border-2 border-slate-200 p-8 md:p-10 rounded-sm shadow-sm transition-shadow relative">
+              
+              <div className="absolute top-0 right-0 bg-blue-50 border-b border-l border-blue-100 px-3 py-1 text-[11px] font-mono text-blue-700 font-bold flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                [FLAGSHIP_NODE]: DEVELEVATOR
+              </div>
 
-        {/* Projects showcase */}
-        <div className="relative max-w-7xl mx-auto">
-          {/* Timeline line */}
-          <motion.div
-            variants={timelineVariants}
-            className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-emerald-400 via-blue-400 to-purple-400 rounded-full origin-top hidden lg:block"
-          />
+              <div className="flex flex-col lg:flex-row gap-10 mt-4">
+                
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded bg-slate-100 text-slate-700">
+                      <featured.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
+                      {featured.title}
+                    </h3>
+                  </div>
+                  
+                  <p className="text-lg font-bold text-blue-600 pl-1 mb-6">
+                    {featured.subtitle}
+                  </p>
+                  
+                  <p className="text-slate-600 text-base leading-relaxed mb-8 font-medium">
+                    {featured.description}
+                  </p>
 
-          {/* Project cards */}
-          <div className="space-y-16 lg:space-y-24">
-            {projects.map((project, index) => {
-              const colorClasses = getColorClasses(project.color);
-              const IconComponent = project.icon;
+                  {/* Architecture Metrics Output */}
+                  <div className="flex flex-wrap gap-4 mb-8">
+                    {featured.metrics.map((metric, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs font-mono text-slate-600 bg-slate-50 border border-slate-200 px-3 py-2 rounded-sm shadow-sm">
+                        <Terminal className="w-3.5 h-3.5 text-blue-500" />
+                        <span>{metric}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-2 mb-8 border-t border-slate-100 pt-6">
+                    {featured.technologies.map((tech, idx) => (
+                      <span key={idx} className="px-3 py-1 text-xs font-mono bg-white text-slate-700 rounded-sm border border-slate-300">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Execution Links */}
+                  <div className="flex gap-4">
+                    <a href={featured.github} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 shadow-md text-sm">
+                      <Github className="w-4 h-4 text-slate-300 group-hover:-translate-y-0.5 transition-transform" />
+                      [EXECUTE]: Source_Code
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Parallel Streams / Freelance Grid */}
+        <div className="pl-4 md:pl-12">
+            
+            {/* Bold Fork Indicator */}
+            <div className="flex items-center gap-4 mb-8 w-full">
+              <div className="inline-flex items-center gap-2.5 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2 rounded-sm shadow-sm font-mono text-sm">
+                <GitBranch className="w-4 h-4 text-blue-400" />
+                <span className="font-bold tracking-wide">[FORK]: FREELANCE_WORK</span>
+              </div>
+              {/* Horizontal Pipeline Connector */}
+              <div className="flex-grow h-px bg-slate-300 hidden sm:block"></div>
+            </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+            {projects.freelance.map((project, index) => {
+              const Icon = project.icon;
 
               return (
-                <motion.div
-                  key={index}
-                  variants={cardVariants}
-                  className={`relative flex flex-col lg:flex-row items-center gap-8 ${
-                    index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                  }`}
-                  onHoverStart={() => setHoveredProject(index)}
-                  onHoverEnd={() => setHoveredProject(null)}>
-                  {/* Timeline dot */}
-                  <motion.div
-                    initial={{ x: "-50%" }}
-                    animate={{ x: "-50%" }}
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-r ${colorClasses.bg} rounded-full border-4 border-slate-900 z-10 hidden lg:flex items-center justify-center`}>
-                    <IconComponent className={`text-lg ${colorClasses.text}`} />
-                    <motion.div
-                      animate={{ scale: [1, 2, 1] }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                      }}
-                      className={`absolute inset-0 bg-gradient-to-r ${colorClasses.bg} rounded-full opacity-30`}
-                    />
-                  </motion.div>
+                <div key={index} className="bg-white border border-slate-200 p-6 md:p-8 rounded-sm shadow-sm hover:shadow-md transition-all duration-200 flex flex-col group relative">
+                  
+                  {/* Node Hex Tag */}
+                  <div className="absolute top-0 right-0 bg-slate-50 border-b border-l border-slate-200 px-2 py-1 text-[10px] font-mono text-slate-400">
+                    MOD_0{index + 1}
+                  </div>
 
-                  {/* Project showcase card */}
-                  <motion.div
-                    whileHover={{
-                      scale: 1.02,
-                    }}
-                    className="w-full lg:w-1/2 group">
-                    <div
-                      className={`relative p-8 bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl rounded-3xl border ${colorClasses.border} shadow-2xl overflow-hidden`}>
-                      {/* Animated background */}
-                      <motion.div
-                        animate={{
-                          opacity:
-                            hoveredProject === index ? [0.1, 0.2, 0.1] : 0.05,
-                          scale: hoveredProject === index ? [1, 1.05, 1] : 1,
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }}
-                        className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg} pointer-events-none`}
-                      />
-
-                      {/* Status and year badges */}
-                      <div className="absolute top-4 right-4 flex gap-2">
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          className="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-xs font-semibold">
-                          ✅ {project.status}
-                        </motion.div>
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          className={`px-3 py-1 rounded-full text-xs font-semibold border ${colorClasses.badge}`}>
-                          <FaCalendarAlt className="inline mr-1" />
-                          {project.year}
-                        </motion.div>
-                      </div>
-
-                      {/* Header */}
-                      <div className="relative z-10 mb-6">
-                        <motion.div
-                          initial={{ scale: 1, rotate: 0 }}
-                          whileHover={{
-                            scale: 1.1,
-                            rotate: [0, 5, -5, 0],
-                          }}
-                          className="mb-4">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div
-                              className={`p-2 rounded-lg bg-gradient-to-r ${colorClasses.bg} border ${colorClasses.border}`}>
-                              <IconComponent
-                                className={`text-lg ${colorClasses.text}`}
-                              />
-                            </div>
-                            <span className="text-sm text-gray-400 font-medium">
-                              {project.category}
-                            </span>
-                          </div>
-                          <h3 className="text-3xl font-bold text-white mb-2">
-                            {project.title}
-                          </h3>
-                        </motion.div>
-                      </div>
-
-                      {/* Project mockup placeholder */}
-                      {/* <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        className="relative mb-6 h-48 bg-gradient-to-br from-slate-700/50 to-slate-800/50 rounded-xl border border-gray-600/30 overflow-hidden">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center">
-                            <FaEye
-                              className={`text-4xl ${colorClasses.text} mb-2 mx-auto`}
-                            />
-                            <p className="text-gray-400 text-sm">
-                              Project Preview
-                            </p>
-                          </div>
-                        </div>
-                        <motion.div
-                          animate={{
-                            opacity: [0.1, 0.3, 0.1],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                          }}
-                          className={`absolute inset-0 bg-gradient-to-br ${colorClasses.bg}`}
-                        />
-                      </motion.div> */}
-
-                      {/* Content */}
-                      <div className="relative z-10 space-y-6">
-                        <p className="text-gray-300 leading-relaxed text-lg">
-                          {project.description}
-                        </p>
-
-                        {/* Key Features */}
-                        <div className="space-y-3">
-                          <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-                            <FaStar className={colorClasses.text} />
-                            Key Features
-                          </h5>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {project.features.map((feature, idx) => (
-                              <motion.div
-                                key={idx}
-                                whileHover={{ scale: 1.02, x: 8 }}
-                                className="flex items-center gap-2 text-sm text-gray-300 p-2 rounded-lg bg-slate-800/30">
-                                <div
-                                  className={`w-2 h-2 rounded-full ${colorClasses.text.replace(
-                                    "text-",
-                                    "bg-"
-                                  )}`}
-                                />
-                                <span>{feature}</span>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Technologies */}
-                        <div className="space-y-3">
-                          <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                            Tech Stack
-                          </h5>
-                          <div className="flex flex-wrap gap-2">
-                            {project.technologies.map((tech, idx) => (
-                              <motion.span
-                                key={idx}
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                className={`px-4 py-2 text-sm font-medium rounded-full border ${colorClasses.badge} backdrop-blur-sm`}>
-                                {tech}
-                              </motion.span>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Action buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                          <motion.a
-                            href={project.githubLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all duration-300 border border-gray-600">
-                            <FaGithub className="text-lg" />
-                            View Code
-                          </motion.a>
-                          <motion.a
-                            href={project.demoLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className={`flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r ${colorClasses.button} text-black font-semibold rounded-xl transition-all duration-300 shadow-lg`}>
-                            <FaExternalLinkAlt className="text-lg" />
-                            Live Demo
-                          </motion.a>
-                        </div>
-                      </div>
-
-                      {/* Hover glow effect */}
-                      <motion.div
-                        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                        style={{
-                          background: `linear-gradient(135deg, ${colorClasses.glow}, transparent)`,
-                          boxShadow: `0 0 80px ${colorClasses.glow}`,
-                        }}
-                      />
+                  <div className="flex justify-between items-start mb-6 mt-2">
+                    <div className="p-2.5 rounded bg-slate-100 text-slate-700 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                      <Icon className="w-5 h-5" />
                     </div>
-                  </motion.div>
+                    {project.live !== "#" && (
+                      <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors bg-slate-50 border border-slate-200 p-1.5 rounded-sm">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
 
-                  {/* Spacer for timeline */}
-                  <div className="w-full lg:w-1/2 hidden lg:block" />
-                </motion.div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-1">{project.title}</h3>
+                  <p className="text-sm font-semibold text-blue-600 mb-4">{project.subtitle}</p>
+                  
+                  <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-grow font-medium">
+                    {project.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-slate-100">
+                    {project.technologies.map((tech, idx) => (
+                      <span key={idx} className="text-[11px] font-mono text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-sm">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               );
             })}
           </div>
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={
-            isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }
-          }
-          transition={{ delay: 2, duration: 0.8 }}
-          className="text-center mt-20">
-          <div className="inline-flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-full border border-emerald-500/20 backdrop-blur-sm">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}>
-              <FaCode className="text-emerald-400" />
-            </motion.div>
-            <span className="text-gray-300 font-medium">
-              More Projects Coming Soon
-            </span>
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}>
-              <FaRocket className="text-blue-400" />
-            </motion.div>
-          </div>
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
-}
+};
 
 export default Projects;

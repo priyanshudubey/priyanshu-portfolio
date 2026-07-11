@@ -9,8 +9,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #202020;
-  color: white;
+  background: #ffffff;
+  color: #1f2937;
 }
 
 @keyframes float {
@@ -40,14 +40,14 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #202020;
+  background: #f5f3ff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #13ff00;
+  background: #a78bfa;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0fcc00;
+  background: #8b5cf6;
 }
