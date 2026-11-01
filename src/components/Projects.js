@@ -1,16 +1,18 @@
 import React from "react";
-import { 
-  Github, 
-  ExternalLink, 
-  Database, 
-  Activity, 
-  Code, 
+import {
+  Github,
+  ExternalLink,
+  Database,
+  Activity,
   Package,
   Cpu,
   Server,
   Terminal,
-  GitBranch
+  GitBranch,
+  Zap,
+  ArrowUpRight
 } from "lucide-react";
+import useReveal from "../hooks/useReveal";
 
 const projects = {
   featured: {
@@ -18,22 +20,11 @@ const projects = {
     subtitle: "Code-Aware RAG Engine for GitHub",
     description:
       "An advanced Agentic AI system that ingests, parses, and enables natural language interaction with complex GitHub repositories. Engineered a custom RAG pipeline utilizing AST (Abstract Syntax Tree) parsing to intelligently chunk functions and classes, maintaining strict semantic coherence. Integrated OpenAI's specialized embeddings with a Supabase (pgvector) database for high-precision vector similarity search, completely eliminating LLM hallucinations during code context retrieval.",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "Supabase (pgvector)",
-      "OpenAI Embeddings",
-      "AST Parsing",
-      "LLM Orchestration",
-    ],
-    metrics: [
-      "Semantic Code Chunking",
-      "Sub-second Vector Search",
-      "Context-Aware Generation"
-    ],
+    technologies: ["Python", "FastAPI", "Supabase (pgvector)", "OpenAI Embeddings", "AST Parsing", "LLM Orchestration"],
+    metrics: ["Semantic Code Chunking", "Sub-second Vector Search", "Context-Aware Generation"],
     icon: Cpu,
     github: "https://github.com/priyanshudubey/develevetor-web",
-    live: "http://develevator.me/" 
+    live: "http://develevator.me/",
   },
   freelance: [
     {
@@ -63,152 +54,161 @@ const projects = {
       icon: Server,
       live: "https://vstbokaro.com",
     },
-  ]
+  ],
 };
 
 const Projects = () => {
+  const ref = useReveal();
   const featured = projects.featured;
 
   return (
-    <section id="projects" className="relative w-full py-24 bg-[#fcfcfc] text-slate-900 overflow-hidden border-t border-slate-200">
-      
-      {/* Precision Blueprint Grid Layer */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-60"></div>
+    <section
+      id="projects"
+      ref={ref}
+      className="relative w-full py-24 bg-gradient-to-br from-[#f5f0e6] via-[#fbfaf7] to-[#f3ece8] text-slate-900 overflow-hidden border-t border-slate-200"
+    >
+      {/* Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#6b2338]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-24">
-        
+
         {/* Section Header */}
-        <div className="mb-16 max-w-4xl border-l-2 border-slate-900 pl-4">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-            System Architecture <span className="text-blue-600">& Microservices</span>
-          </h2>
-          
-          {/* Mini Inline Terminal Execution */}
-          <div className="mt-5 inline-flex items-center gap-2 bg-slate-900 rounded-md px-4 py-2.5 font-mono text-sm shadow-sm border border-slate-800 overflow-x-auto max-w-full">
-            <span className="text-emerald-400 font-bold shrink-0">priyanshu@prod:~$</span>
-            <span className="text-slate-200 whitespace-nowrap">ls -la /var/www/active_projects</span>
-            <span className="w-2 h-4 bg-slate-400 animate-pulse rounded-sm inline-block shrink-0"></span>
+        <div className="mb-16 max-w-4xl reveal">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#f3ece8] border border-[#e3d7d3] text-[#6b2338] text-xs font-mono rounded-sm mb-6">
+            <Zap className="w-3.5 h-3.5" />
+            ls -la /var/www/active_projects
           </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Projects <span className="gradient-text">& Builds</span>
+          </h2>
         </div>
 
-        {/* Pipeline Container for Featured Project */}
-        <div className="w-full relative border-l-2 border-slate-200 ml-2 md:ml-8 py-4 mb-12">
-          
-          <div className="relative pl-8 md:pl-12 group">
-            
-            {/* Main Node Connection */}
-            <div className="absolute -left-[10px] top-8 w-5 h-5 bg-white border-4 border-blue-600 rounded-sm"></div>
-            <div className="absolute left-0 top-10 w-8 h-0.5 bg-blue-200"></div>
+        {/* ── Featured Project ── */}
+        <div className="mb-16 reveal delay-100">
+          <div className="relative overflow-hidden rounded-sm border border-[#e3d7d3]/70 shadow-xl shadow-[#6b2338]/50 bg-white">
+            {/* Gradient top bar */}
+            <div className="h-1 w-full bg-gradient-to-r from-[#6b2338] via-[#8a4556] to-[#b08a50]" />
 
-            {/* Core Project Block */}
-            <div className="bg-white border-2 border-slate-200 p-8 md:p-10 rounded-sm shadow-sm transition-shadow relative">
-              
-              <div className="absolute top-0 right-0 bg-blue-50 border-b border-l border-blue-100 px-3 py-1 text-[11px] font-mono text-blue-700 font-bold flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
-                [FLAGSHIP_NODE]: DEVELEVATOR
-              </div>
+            {/* Badge */}
+            <div className="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-1.5 bg-[#6b2338] text-white text-[11px] font-mono font-bold rounded-sm shadow-lg shadow-[#6b2338]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+              </span>
+              FLAGSHIP_PROJECT
+            </div>
 
-              <div className="flex flex-col lg:flex-row gap-10 mt-4">
-                
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 rounded bg-slate-100 text-slate-700">
-                      <featured.icon className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">
-                      {featured.title}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-lg font-bold text-blue-600 pl-1 mb-6">
-                    {featured.subtitle}
-                  </p>
-                  
-                  <p className="text-slate-600 text-base leading-relaxed mb-8 font-medium">
-                    {featured.description}
-                  </p>
-
-                  {/* Architecture Metrics Output */}
-                  <div className="flex flex-wrap gap-4 mb-8">
-                    {featured.metrics.map((metric, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-xs font-mono text-slate-600 bg-slate-50 border border-slate-200 px-3 py-2 rounded-sm shadow-sm">
-                        <Terminal className="w-3.5 h-3.5 text-blue-500" />
-                        <span>{metric}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap gap-2 mb-8 border-t border-slate-100 pt-6">
-                    {featured.technologies.map((tech, idx) => (
-                      <span key={idx} className="px-3 py-1 text-xs font-mono bg-white text-slate-700 rounded-sm border border-slate-300">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Execution Links */}
-                  <div className="flex gap-4">
-                    <a href={featured.github} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 shadow-md text-sm">
-                      <Github className="w-4 h-4 text-slate-300 group-hover:-translate-y-0.5 transition-transform" />
-                      [EXECUTE]: Source_Code
-                    </a>
-                  </div>
+            <div className="p-8 md:p-12">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-[#f3ece8] to-[#f3eee2] border border-[#e3d7d3]">
+                  <featured.icon className="w-7 h-7 text-[#6b2338]" />
+                </div>
+                <div>
+                  <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">{featured.title}</h3>
+                  <p className="text-[#6b2338] font-bold text-lg">{featured.subtitle}</p>
                 </div>
               </div>
+
+              <p className="text-slate-600 text-base leading-relaxed mt-6 mb-8 max-w-3xl font-medium">
+                {featured.description}
+              </p>
+
+              {/* Metrics */}
+              <div className="flex flex-wrap gap-3 mb-8">
+                {featured.metrics.map((m, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs font-mono text-[#6b2338] bg-[#f3ece8] border border-[#e3d7d3] px-3 py-2 rounded-sm">
+                    <Terminal className="w-3.5 h-3.5" />
+                    {m}
+                  </div>
+                ))}
+              </div>
+
+              {/* Tech pills */}
+              <div className="flex flex-wrap gap-2 mb-8 pt-6 border-t border-slate-100">
+                {featured.technologies.map((tech, i) => (
+                  <span key={i} className="px-3 py-1 text-xs font-mono bg-slate-50 text-slate-700 border border-slate-200 rounded-sm hover:border-[#6b2338] hover:bg-[#f3ece8] hover:text-[#6b2338] transition-colors">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Links */}
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href={featured.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 shadow-md text-sm"
+                >
+                  <Github className="w-4 h-4 text-slate-300 group-hover:-translate-y-0.5 transition-transform" />
+                  [EXECUTE]: Source_Code
+                </a>
+                <a
+                  href={featured.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 bg-[#6b2338] hover:bg-[#6b2338] text-white px-6 py-2.5 rounded-sm font-semibold transition-all duration-200 shadow-md shadow-[#6b2338] text-sm"
+                >
+                  <ExternalLink className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                  [LIVE]: develevator.me
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Parallel Streams / Freelance Grid */}
-        <div className="pl-4 md:pl-12">
-            
-            {/* Bold Fork Indicator */}
-            <div className="flex items-center gap-4 mb-8 w-full">
-              <div className="inline-flex items-center gap-2.5 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2 rounded-sm shadow-sm font-mono text-sm">
-                <GitBranch className="w-4 h-4 text-blue-400" />
-                <span className="font-bold tracking-wide">[FORK]: FREELANCE_WORK</span>
-              </div>
-              {/* Horizontal Pipeline Connector */}
-              <div className="flex-grow h-px bg-slate-300 hidden sm:block"></div>
+        {/* ── Freelance Grid ── */}
+        <div className="pl-0">
+          <div className="flex items-center gap-4 mb-8 reveal delay-200">
+            <div className="inline-flex items-center gap-2.5 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-2 rounded-sm shadow-sm font-mono text-sm">
+              <GitBranch className="w-4 h-4 text-[#6b2338]" />
+              <span className="font-bold tracking-wide">[FORK]: FREELANCE_WORK</span>
             </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+            <div className="flex-grow h-px bg-slate-200" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.freelance.map((project, index) => {
               const Icon = project.icon;
+              const delay = ["delay-300", "delay-400", "delay-500"][index] || "delay-500";
 
               return (
-                <div key={index} className="bg-white border border-slate-200 p-6 md:p-8 rounded-sm shadow-sm hover:shadow-md transition-all duration-200 flex flex-col group relative">
-                  
-                  {/* Node Hex Tag */}
-                  <div className="absolute top-0 right-0 bg-slate-50 border-b border-l border-slate-200 px-2 py-1 text-[10px] font-mono text-slate-400">
+                <div
+                  key={index}
+                  className={`animated-border bg-white border border-slate-200 p-6 md:p-8 rounded-sm shadow-sm flex flex-col group relative card-lift reveal ${delay}`}
+                >
+                  <div className="absolute top-0 right-0 bg-slate-50 border-b border-l border-slate-200 px-2 py-1 text-[10px] font-mono text-slate-400 group-hover:text-[#6b2338] transition-colors">
                     MOD_0{index + 1}
                   </div>
 
                   <div className="flex justify-between items-start mb-6 mt-2">
-                    <div className="p-2.5 rounded bg-slate-100 text-slate-700 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                    <div className="p-2.5 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-[#f3ece8] group-hover:text-[#6b2338] transition-all duration-200">
                       <Icon className="w-5 h-5" />
                     </div>
                     {project.live !== "#" && (
-                      <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors bg-slate-50 border border-slate-200 p-1.5 rounded-sm">
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-slate-400 hover:text-[#6b2338] transition-colors bg-slate-50 border border-slate-200 hover:border-[#6b2338] hover:bg-[#f3ece8] p-1.5 rounded-sm"
+                      >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 mb-1">{project.title}</h3>
-                  <p className="text-sm font-semibold text-blue-600 mb-4">{project.subtitle}</p>
-                  
-                  <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-grow font-medium">
+                  <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-[#6b2338] transition-colors">{project.title}</h3>
+                  <p className="text-sm font-semibold text-[#6b2338] mb-4">{project.subtitle}</p>
+
+                  <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-grow font-medium">
                     {project.description}
                   </p>
 
                   <div className="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-slate-100">
                     {project.technologies.map((tech, idx) => (
-                      <span key={idx} className="text-[11px] font-mono text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-sm">
+                      <span key={idx} className="text-[11px] font-mono text-slate-500 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-sm hover:border-[#e3d7d3] hover:text-[#6b2338] transition-colors">
                         {tech}
                       </span>
                     ))}
