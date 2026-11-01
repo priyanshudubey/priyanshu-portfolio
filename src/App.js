@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-// import About from "./components/About";
+import About from "./components/About";
 import Education from "./components/Education";
 import Experience from "./components/Experience";
 import Footer from "./components/Footer";
@@ -10,14 +10,14 @@ import Projects from "./components/Projects";
 
 function App() {
   return (
-    <div className="bg-white min-h-screen text-gray-900 relative overflow-hidden">
+    <div className="bg-[#fbfaf7] min-h-screen text-[#1d2925] relative overflow-hidden">
       <Navbar />
       <section id="home">
         <Hero />
       </section>
-      {/* <section id="about">
+      <section>
         <About />
-      </section> */}
+      </section>
       <section id="education">
         <Education />
       </section>
