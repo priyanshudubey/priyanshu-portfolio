@@ -78,7 +78,7 @@ const Navbar = () => {
                   className={`relative px-4 py-2 text-sm font-semibold font-mono uppercase tracking-wide transition-colors rounded-sm ${
                     activeSection === link.id
                       ? "text-[#6b2338]"
-                      : "text-slate-500 hover:text-slate-900"
+                      : "text-[#46514a] hover:text-slate-900"
                   }`}
                 >
                   {activeSection === link.id && (
@@ -100,7 +100,7 @@ const Navbar = () => {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-slate-600 hover:text-[#6b2338] focus:outline-none p-2 rounded-sm hover:bg-slate-100 transition-colors"
+                className="text-[#3d4942] hover:text-[#6b2338] focus:outline-none p-2 rounded-sm hover:bg-slate-100 transition-colors"
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -123,7 +123,7 @@ const Navbar = () => {
                 className={`flex items-center gap-3 px-4 py-3 text-sm font-mono font-bold uppercase tracking-wider rounded-sm transition-all ${
                   activeSection === link.id
                     ? "text-[#6b2338] bg-[#f3ece8] border border-[#e3d7d3]"
-                    : "text-slate-600 hover:text-[#6b2338] hover:bg-slate-50 border border-transparent"
+                    : "text-[#3d4942] hover:text-[#6b2338] hover:bg-slate-50 border border-transparent"
                 }`}
               >
                 {activeSection === link.id && (

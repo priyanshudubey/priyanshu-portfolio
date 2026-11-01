@@ -38,12 +38,12 @@ function About() {
     <section
       id="about"
       ref={ref}
-      className="relative w-full py-24 bg-[#fbfaf7] text-[#1d2925] overflow-hidden border-t border-[#e7e1d7]"
+      className="relative w-full py-20 bg-[#fbfaf7] text-[#1d2925] overflow-hidden border-t border-[#e7e1d7]"
     >
       {/* Blueprint Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e7e1d7_1px,transparent_1px),linear-gradient(to_bottom,#e7e1d7_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-30" />
 
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-24">
+      <div className="relative z-10 w-full max-w-[1680px] mx-auto px-6 sm:px-8 lg:px-14">
 
         {/* Section Header */}
         <div className="mb-16 max-w-4xl border-l-2 border-[#6b2338] pl-5 reveal">
@@ -53,7 +53,7 @@ function About() {
           <p className="mt-3 text-[#59645e] max-w-2xl leading-relaxed">
             I build AI-powered products and the reliable systems behind them.
           </p>
-          <div className="mt-5 inline-flex items-center gap-2 bg-[#1d2925] rounded-md px-4 py-2.5 font-mono text-sm shadow-sm border border-[#34443c]">
+          <div className="mt-5 inline-flex items-center gap-2 bg-[#1d2925] rounded-md px-4 py-2.5 font-mono text-base shadow-sm border border-[#34443c]">
             <span className="text-[#d1b277] font-bold">priyanshu@prod:~$</span>
             <span className="text-[#e8e4da]">cat /etc/profile.d/priyanshu.conf</span>
             <span className="w-2 h-4 bg-[#a8793e] animate-pulse rounded-sm inline-block" />
@@ -89,7 +89,7 @@ function About() {
           <div className="relative pl-8 md:pl-12 reveal delay-200">
             <div className="absolute -left-[9px] top-2 w-4 h-4 bg-white border-2 border-[#a8793e] rounded-full" />
 
-            <p className="mb-4 text-sm text-[#68736c]">A snapshot of my experience and the scale of systems I have worked on.</p>
+            <p className="mb-4 text-base text-[#68736c]">A snapshot of my experience and the scale of systems I have worked on.</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {stats.map((stat, idx) => (
@@ -97,11 +97,11 @@ function About() {
                   key={idx}
                   className="bg-white border border-[#e9e4dc] p-5 rounded-sm shadow-sm text-center group hover:border-[#b9987b] hover:shadow-lg card-lift transition-all duration-200 relative reveal-scale delay-200"
                 >
-                  <div className="absolute top-0 right-0 bg-[#f6f2ec] border-b border-l border-[#e9e4dc] px-2 py-1 text-[10px] font-mono text-[#8c7958]">
+                  <div className="absolute top-0 right-0 bg-[#f6f2ec] border-b border-l border-[#e9e4dc] px-2 py-1 text-base font-mono text-[#8c7958]">
                     STAT_0{idx + 1}
                   </div>
                   <p className="text-3xl font-extrabold text-[#6b2338] mt-1">{stat.value}</p>
-                  <p className="text-xs font-mono text-[#68736c] mt-1 uppercase tracking-wide">{stat.label}</p>
+                  <p className="text-base font-mono text-[#68736c] mt-1 uppercase tracking-wide">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -120,17 +120,17 @@ function About() {
                   <div
                     className={`bg-white border border-[#e9e4dc] p-5 rounded-sm shadow-sm hover:shadow-md hover:border-[#b9987b] transition-all duration-200 flex flex-col gap-2 relative group ${fact.href ? "cursor-pointer" : ""}`}
                   >
-                    <div className="absolute top-0 right-0 bg-[#f6f2ec] border-b border-l border-[#e9e4dc] px-2 py-1 text-[10px] font-mono text-[#8c7958] group-hover:text-[#6b2338] transition-colors">
+                    <div className="absolute top-0 right-0 bg-[#f6f2ec] border-b border-l border-[#e9e4dc] px-2 py-1 text-base font-mono text-[#8c7958] group-hover:text-[#6b2338] transition-colors">
                       {fact.sub}
                     </div>
                     <div className="flex items-center gap-2.5 mt-2">
                       <div className="p-2 rounded bg-[#f1ece5] text-[#806333] group-hover:bg-[#eee5df] group-hover:text-[#6b2338] transition-colors">
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="text-xs font-mono text-[#68736c] uppercase tracking-wide">{fact.label}</span>
+                      <span className="text-base font-mono text-[#68736c] uppercase tracking-wide">{fact.label}</span>
                     </div>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <p className="text-sm font-bold text-[#293630]">{fact.value}</p>
+                      <p className="text-base font-bold text-[#293630]">{fact.value}</p>
                       {fact.href && (
                         <ExternalLink className="w-3 h-3 text-[#8c7958] group-hover:text-[#6b2338] transition-colors" />
                       )}

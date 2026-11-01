@@ -18,10 +18,10 @@ function FloatingCard() {
           <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
           <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
-          <span className="ml-2 text-[11px] font-mono text-slate-400">ai_product.py</span>
+          <span className="ml-2 text-sm font-mono text-slate-300">ai_product.py</span>
         </div>
         {/* Code lines */}
-        <div className="p-4 font-mono text-xs leading-6 space-y-0.5">
+        <div className="p-4 font-mono text-sm leading-6 space-y-0.5">
           <p><span className="text-purple-300">from</span> <span className="text-[#d7a5b2]">eviview</span> <span className="text-purple-300">import</span> <span className="text-slate-100">AIEngine</span></p>
           <p><span className="text-purple-300">from</span> <span className="text-[#d7a5b2]">openai</span> <span className="text-purple-300">import</span> <span className="text-slate-100">AsyncClient</span></p>
           <p className="text-slate-400">&nbsp;</p>
@@ -35,7 +35,7 @@ function FloatingCard() {
           <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-slate-400">)</span></p>
           <p className="flex items-center gap-1 mt-2">
             <span className="w-2 h-2 bg-[#a8793e] rounded-full animate-pulse" />
-            <span className="text-[#d9bd83] text-xs">shipping to prod...</span>
+            <span className="text-[#d9bd83] text-sm">shipping to prod...</span>
           </p>
         </div>
       </div>
@@ -52,7 +52,7 @@ const Hero = () => {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6b2338]/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-[#6b2338]/8 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1760px] mx-auto px-6 sm:px-10 lg:px-14 flex items-center gap-8 2xl:gap-14">
+      <div className="relative z-10 w-full max-w-[1680px] mx-auto px-6 sm:px-8 lg:px-14 flex items-center gap-8 2xl:gap-14">
 
         {/* Pipeline Container */}
         <div className="w-full max-w-[1200px] min-w-0 flex-1 relative border-l-2 border-[#ded8cb] ml-2 md:ml-4 py-6 space-y-10">
@@ -63,10 +63,10 @@ const Hero = () => {
 
             {/* Status Tags */}
             <div className="flex flex-wrap items-center gap-3 mb-6 mt-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-[#e2dcd2] text-[#47504a] text-xs font-mono rounded-sm shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-[#e2dcd2] text-[#47504a] text-sm font-mono rounded-sm shadow-sm">
                 <Play className="w-3 h-3 text-slate-400" /> [NODE_01]: CONNECTED
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#e2dcd2] text-[#47504a] text-xs font-mono rounded-sm shadow-sm">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#e2dcd2] text-[#47504a] text-sm font-mono rounded-sm shadow-sm">
                 <MapPin className="w-3 h-3 text-slate-400" /> [ENV]: PUNE, IN
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#f3eee2] border border-[#e6ddc9] text-[#765628] text-xs font-mono font-bold rounded-sm shadow-sm">
@@ -96,7 +96,7 @@ const Hero = () => {
             <div className="absolute -left-[10px] top-4 w-5 h-5 bg-[#6b2338] border-4 border-[#fbfaf7] rounded-sm transition-transform group-hover:scale-110" />
             <div className="absolute left-0 top-6 w-8 h-0.5 bg-slate-200" />
 
-            <div className="animated-border bg-white border border-slate-200 p-6 sm:p-8 rounded-sm shadow-sm hover:shadow-lg transition-all duration-300 relative">
+            <div className="animated-border bg-white border border-slate-200 p-6 sm:p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-150 relative">
               <div className="absolute top-0 right-0 bg-[#f3ece8] border-b border-l border-[#e3d7d3] px-3 py-1.5 text-[11px] font-mono text-[#5c1d30] font-bold">
                 AI_PRODUCT_LAYER
               </div>
@@ -116,7 +116,7 @@ const Hero = () => {
               <GitBranch className="w-4 h-4 text-[#6b2338]" />
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm font-mono text-slate-600">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-base font-mono text-[#3d4942]">
               {[
                 { icon: Cpu,      label: "AI / LLM Products" },
                 { icon: Terminal, label: "Full-Stack Eng" },
@@ -128,7 +128,7 @@ const Hero = () => {
                   className="flex items-center gap-2 bg-white border border-slate-200 px-3 py-2.5 rounded-sm shadow-sm hover:border-[#6b2338] hover:bg-[#f3ece8]/50 hover:text-[#6b2338] transition-all duration-200 card-lift cursor-default"
                 >
                   <Icon className="w-4 h-4 text-[#6b2338] shrink-0" />
-                  <span className="text-xs">{label}</span>
+                  <span className="text-sm">{label}</span>
                 </div>
               ))}
             </div>

@@ -94,7 +94,7 @@ const Experience = () => {
     <section
       id="experience"
       ref={ref}
-      className="relative w-full py-24 bg-[#f5f1e9] text-slate-900 overflow-hidden border-t border-[#e7e1d7]"
+      className="relative w-full py-20 bg-[#f5f1e9] text-slate-900 overflow-hidden border-t border-[#e7e1d7]"
     >
       {/* Dark grid overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(107,35,56,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(107,35,56,0.035)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
@@ -102,11 +102,11 @@ const Experience = () => {
       {/* Glow accents */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 bg-[#6b2338]/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-24">
+      <div className="relative z-10 w-full max-w-[1680px] mx-auto px-6 sm:px-8 lg:px-14">
 
         {/* Section Header */}
         <div className="mb-16 max-w-4xl reveal">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#6b2338]/10 border border-[#6b2338]/30 text-[#6b2338] text-xs font-mono rounded-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#6b2338]/10 border border-[#6b2338]/30 text-[#6b2338] text-base font-mono rounded-sm mb-6">
             <span className="w-1.5 h-1.5 bg-[#6b2338] rounded-full animate-pulse" />
             active_instances --trace
           </div>
@@ -145,7 +145,7 @@ const Experience = () => {
                 >
                   {/* Top tag */}
                   <div
-                    className={`absolute top-0 right-0 px-3 py-1.5 text-[11px] font-mono font-bold flex items-center gap-2 border-b border-l ${
+                    className={`absolute top-0 right-0 px-3 py-1.5 text-base font-mono font-bold flex items-center gap-2 border-b border-l ${
                       item.current
                         ? "bg-[#a8793e]/10 border-[#a8793e]/30 text-[#a8793e]"
                         : "bg-[#f3eee8] border-[#e7e1d7] text-[#68736c]"
@@ -173,7 +173,7 @@ const Experience = () => {
                         <p className={`text-lg font-semibold pl-1 ${item.current ? "text-[#a8793e]" : "text-[#6b2338]"}`}>
                           {item.company}
                         </p>
-                        <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-[#8c7958] pl-1 pt-1">
+                        <div className="flex flex-wrap items-center gap-3 text-base font-mono text-[#8c7958] pl-1 pt-1">
                           <div className="flex items-center gap-1.5 bg-[#f3eee8] border border-[#e7e1d7] px-2 py-0.5 rounded-sm">
                             <Briefcase className="w-3.5 h-3.5" />
                             <span className="uppercase">{item.type}</span>
@@ -185,7 +185,7 @@ const Experience = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs font-mono text-[#68736c] bg-[#f3eee8] border border-[#e7e1d7] px-3 py-2 rounded-sm lg:self-start h-fit w-fit">
+                      <div className="flex items-center gap-2 text-base font-mono text-[#68736c] bg-[#f3eee8] border border-[#e7e1d7] px-3 py-2 rounded-sm lg:self-start h-fit w-fit">
                         <Calendar className="w-3.5 h-3.5 text-[#6b2338]" />
                         <span>{item.duration.toUpperCase()}</span>
                       </div>
@@ -198,10 +198,10 @@ const Experience = () => {
 
                     {/* Achievements */}
                     <div className="mb-8">
-                      <h4 className="text-xs font-mono text-[#8c7958] uppercase tracking-wider mb-4">// System Outputs & Impact</h4>
+                      <h4 className="text-base font-mono text-[#8c7958] uppercase tracking-wider mb-4">// System Outputs & Impact</h4>
                       <ul className="space-y-2.5">
                         {item.achievements.map((achievement, idx) => (
-                          <li key={idx} className="flex items-start gap-3 text-[#59645e] text-sm font-medium">
+                          <li key={idx} className="flex items-start gap-3 text-[#59645e] text-base font-medium">
                             <CheckCircle className={`w-4 h-4 mt-0.5 shrink-0 ${item.current ? "text-[#a8793e]" : "text-[#6b2338]"}`} />
                             <span className="leading-normal">{achievement}</span>
                           </li>
@@ -211,12 +211,12 @@ const Experience = () => {
 
                     {/* Tech Stack */}
                     <div>
-                      <h4 className="text-xs font-mono text-[#8c7958] uppercase tracking-wider mb-3">// Core Stack Injected</h4>
+                      <h4 className="text-base font-mono text-[#8c7958] uppercase tracking-wider mb-3">// Core Stack Injected</h4>
                       <div className="flex flex-wrap gap-2">
                         {item.technologies.map((tech, idx) => (
                           <span
                             key={idx}
-                            className="flex items-center gap-1 px-2.5 py-1 text-xs font-mono bg-[#f3eee8] text-[#59645e] rounded-sm border border-[#e7e1d7] hover:border-[#6b2338]/50 hover:text-[#6b2338] transition-colors"
+                            className="flex items-center gap-1 px-2.5 py-1 text-base font-mono bg-[#f3eee8] text-[#59645e] rounded-sm border border-[#e7e1d7] hover:border-[#6b2338]/50 hover:text-[#6b2338] transition-colors"
                           >
                             <Terminal className="w-3 h-3 text-[#6b2338]" />
                             {tech}
