@@ -54,7 +54,7 @@ const Navbar = () => {
             : "bg-white/80 backdrop-blur-sm border-b border-slate-200/60"
         }`}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-24">
+        <div className="w-full max-w-[1760px] mx-auto px-6 sm:px-10 lg:px-14">
           <div className="flex items-center justify-between h-20">
 
             {/* Logo */}
@@ -92,7 +92,7 @@ const Navbar = () => {
                 href="#contact"
                 className="ml-3 inline-flex items-center gap-2 bg-slate-900 hover:bg-[#6b2338] text-white px-5 py-2.5 rounded-sm text-sm font-bold font-mono transition-all duration-200 shadow-sm hover:shadow-[#6b2338] hover:shadow-md"
               >
-                <span className="text-[#6b2338] group-hover:text-white">[INIT]:</span>&nbsp;Connect
+                <span className="text-[#d9bd83] group-hover:text-white">[INIT]:</span>&nbsp;Connect
               </a>
             </div>
 
