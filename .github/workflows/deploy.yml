@@ -1,37 +1,35 @@
-name: 🚀 Deploy Portfolio to Hostinger
+name: Deploy to Hostinger
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  # The site only deploys if lint, tests, e2e and Lighthouse all pass.
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: checks
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Checkout Code
-        uses: actions/checkout@v4
-
-      - name: ⚙️ Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/download-artifact@v4
         with:
-          node-version: '20'
+          name: dist
+          path: dist
 
-      - name: 📦 Install Dependencies
-        run: npm ci
-
-      - name: 🏗️ Build the App
-        run: npm run build
-        env:
-          CI: false 
-
-      - name: 🚀 Sync Files to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Sync files to Hostinger (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./build/        
-          server-dir: ./         
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ./
           dangerous-clean-slate: true

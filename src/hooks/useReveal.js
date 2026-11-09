@@ -1,15 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 /**
- * useReveal – attaches IntersectionObserver to every element
- * with .reveal, .reveal-left, or .reveal-scale class inside the ref'd container.
+ * Fades `.reveal` elements in as they scroll into view.
+ *
+ * Elements are only hidden once this runs (it adds `reveal-ready` to <html>),
+ * so the prerendered HTML stays fully visible if JS is slow or disabled.
+ * Reduced-motion users get the content immediately (see index.css).
  */
-const useReveal = () => {
-  const ref = useRef(null);
-
+export default function useReveal() {
   useEffect(() => {
-    const container = ref.current || document;
-    const targets = container.querySelectorAll(".reveal, .reveal-left, .reveal-scale");
+    const targets = document.querySelectorAll(".reveal");
+
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((el) => el.classList.add("visible"));
+      return undefined;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,14 +25,25 @@ const useReveal = () => {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -48px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
     );
 
-    targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    // Anything already on screen is shown without waiting for a frame.
+    targets.forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("visible");
+      else observer.observe(el);
+    });
+    // Hide the not-yet-visible elements *instantly*: without `reveal-instant`
+    // they would all transition from visible to hidden at once during load.
+    const root = document.documentElement;
+    root.classList.add("reveal-instant", "reveal-ready");
+    const frame = requestAnimationFrame(() =>
+      requestAnimationFrame(() => root.classList.remove("reveal-instant")),
+    );
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, []);
-
-  return ref;
-};
-
-export default useReveal;
+}

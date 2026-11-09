@@ -1,0 +1,20 @@
+{
+  "channel": {
+    "name": "Toaster Code",
+    "handle": "@toastercode",
+    "id": "UCHEvZI_0nD40lqy14GascQg",
+    "url": "https://www.youtube.com/@toastercode",
+    "avatar": "/youtube/avatar.jpg"
+  },
+  "video": {
+    "pinned": true,
+    "label": "Featured video",
+    "id": "uakpuSe9kvM",
+    "title": "MySQL Full Course 2026 | Zero to Hero (9 Hours)",
+    "published": "2026-03-15T06:00:06+00:00",
+    "duration": "8:50:13",
+    "isShort": false,
+    "url": "https://www.youtube.com/watch?v=uakpuSe9kvM",
+    "thumbnail": "https://i.ytimg.com/vi/uakpuSe9kvM/maxresdefault.jpg"
+  }
+}
