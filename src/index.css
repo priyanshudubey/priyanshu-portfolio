@@ -16,7 +16,7 @@
   --ink: 20 33 43; /* #14212b */
   --ink-soft: 46 61 74; /* #2e3d4a */
   --muted: 82 99 115; /* #526373 */
-  --accent: 194 64 42; /* #c2402a  coral */
+  --accent: 184 59 38; /* #b83b26  coral (passes 4.5:1 on both light backgrounds) */
   --accent-soft: 253 233 228; /* #fde9e4 */
   --accent-line: 246 207 197; /* #f6cfc5 */
   --highlight: 11 100 136; /* #0b6488  ocean */
